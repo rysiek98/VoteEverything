@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VoteEverything</string>
+    <string name="app_name_with_space">Vote Everything</string>
+    <string name="singInButton">Sing in</string>
+    <string name="singUpButton">Sing up</string>
+    <string name="guestButton">Guest</string>
 </resources>
