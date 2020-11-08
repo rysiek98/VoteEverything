@@ -9,4 +9,8 @@
     <string name="email">E-mail:</string>
     <string name="password">Password:</string>
     <string name="singIn">Sing in</string>
+    <string name="singUp">Sing up</string>
+    <string name="create">Create</string>
+    <string name="username">Username:</string>
+    <string name="usernameFromUser">Username...</string>
 </resources>

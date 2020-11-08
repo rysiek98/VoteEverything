@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_start_screen.*
 import kotlinx.android.synthetic.main.sing_in_dialog.view.*
+import kotlinx.android.synthetic.main.sing_up_dialog.view.*
 
 
 class StartScreenActivity : AppCompatActivity(){
@@ -35,11 +36,18 @@ class StartScreenActivity : AppCompatActivity(){
             dialogView.singInBackButton.setOnClickListener {
                 mAlert.dismiss()
             }
-
         }
 
         singUpButton.setOnClickListener {
-            //To do...
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_up_dialog, null)
+            val mBuilder = AlertDialog.Builder(this).setView(dialogView)
+            val mAlert = mBuilder.show()
+            mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            dialogView.singUpBackButton.setOnClickListener {
+                mAlert.dismiss()
+            }
+
         }
 
         guestButton.setOnClickListener {
