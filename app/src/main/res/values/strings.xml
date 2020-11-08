@@ -4,4 +4,9 @@
     <string name="singInButton">Sing in</string>
     <string name="singUpButton">Sing up</string>
     <string name="guestButton">Guest</string>
+    <string name="login">Login</string>
+    <string name="back">Back</string>
+    <string name="email">E-mail:</string>
+    <string name="password">Password:</string>
+    <string name="singIn">Sing in</string>
 </resources>

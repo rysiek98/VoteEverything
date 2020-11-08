@@ -1,10 +1,16 @@
 package com.example.voteeverything
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-
+import kotlinx.android.synthetic.main.activity_start_screen.*
+import kotlinx.android.synthetic.main.sing_in_dialog.view.*
 
 
 class StartScreenActivity : AppCompatActivity(){
@@ -18,6 +24,26 @@ class StartScreenActivity : AppCompatActivity(){
             if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
                 Handler().postDelayed({hideSystemUI()},2000)
             }
+        }
+
+        singInButton.setOnClickListener {
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_in_dialog, null)
+            val mBuilder = AlertDialog.Builder(this).setView(dialogView)
+            val mAlert = mBuilder.show()
+            mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            dialogView.singInBackButton.setOnClickListener {
+                mAlert.dismiss()
+            }
+
+        }
+
+        singUpButton.setOnClickListener {
+            //To do...
+        }
+
+        guestButton.setOnClickListener {
+            //To do...
         }
     }
 
