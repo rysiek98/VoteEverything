@@ -163,8 +163,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:fontFamily="@font/allerta"
+            android:hint="@string/usernameFromUser"
             android:inputType="textPersonName"
-            android:text="@string/usernameFromUser"
             android:textColor="#6F30DF" />
     </LinearLayout>
 

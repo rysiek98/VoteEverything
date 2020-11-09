@@ -10,12 +10,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_start_screen.*
 import kotlinx.android.synthetic.main.sing_in_dialog.view.*
-import kotlinx.android.synthetic.main.sing_up_dialog.*
 import kotlinx.android.synthetic.main.sing_up_dialog.view.*
 
 
@@ -53,13 +52,11 @@ class StartScreenActivity : AppCompatActivity(){
                         if (task.isSuccessful) {
                             Toast.makeText(baseContext, "Authentication success.",
                                 Toast.LENGTH_SHORT).show()
-                            val user = auth.currentUser
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(baseContext, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
                         }
-
                     }
             }
             dialogView.singInBackButton.setOnClickListener {
@@ -78,11 +75,18 @@ class StartScreenActivity : AppCompatActivity(){
                 dialogView.passwordFromUserSingUp.text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(baseContext, "Authentication success.",
-                            Toast.LENGTH_SHORT).show()
-                        var user = auth.currentUser
+                        val user = auth.currentUser
+                        val profileUpdates = userProfileChangeRequest {
+                            displayName = dialogView.nicknameFormUserSingUp.text.toString()
+                        }
+                        user!!.updateProfile(profileUpdates)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(baseContext, "Authentication success.",
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                            }
                     } else {
-                        // If sign in fails, display a message to the user.
                         Toast.makeText(baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
                     }
@@ -99,14 +103,17 @@ class StartScreenActivity : AppCompatActivity(){
                 if (task.isSuccessful) {
                     Toast.makeText(baseContext, "Authentication success.",
                         Toast.LENGTH_SHORT).show()
-                    var user = auth.currentUser
                 } else {
-                    // If sign in fails, display a message to the user.
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
+        exitButton.setOnClickListener {
+            finish()
+        }
+
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
