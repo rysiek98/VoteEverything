@@ -1,7 +1,6 @@
 package com.example.voteeverything
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,6 +15,8 @@ import kotlinx.android.synthetic.main.sing_up_dialog.view.*
 
 class StartScreenActivity : AppCompatActivity(){
 
+    var controlHideUIFlag = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_screen)
@@ -23,11 +24,18 @@ class StartScreenActivity : AppCompatActivity(){
             // Note that system bars will only be "visible" if none of the
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
             if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                Handler().postDelayed({hideSystemUI()},2000)
+                if(!controlHideUIFlag) {
+                    Handler().postDelayed({ hideSystemUI() }, 2000)
+                }else{
+                    hideSystemUI()
+                    controlHideUIFlag = false
+                }
             }
+
         }
 
         singInButton.setOnClickListener {
+            controlHideUIFlag = true
             val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_in_dialog, null)
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
@@ -39,6 +47,7 @@ class StartScreenActivity : AppCompatActivity(){
         }
 
         singUpButton.setOnClickListener {
+            controlHideUIFlag = true
             val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_up_dialog, null)
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
