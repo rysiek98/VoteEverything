@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "456102397142",
+    "firebase_url": "https://voteeverything-20.firebaseio.com",
+    "project_id": "voteeverything-20",
+    "storage_bucket": "voteeverything-20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456102397142:android:d35010c23e8b0838203577",
+        "android_client_info": {
+          "package_name": "com.example.voteeverything"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456102397142-6rs96ghn44mo29nsbrtgo8ahcab4bv59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8tTjofbLkfpff9qAhXiaGZrkn9f4WF7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456102397142-6rs96ghn44mo29nsbrtgo8ahcab4bv59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
