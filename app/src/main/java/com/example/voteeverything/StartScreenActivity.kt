@@ -7,16 +7,22 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_start_screen.*
 import kotlinx.android.synthetic.main.sing_in_dialog.view.*
+import kotlinx.android.synthetic.main.sing_up_dialog.*
 import kotlinx.android.synthetic.main.sing_up_dialog.view.*
 
 
 class StartScreenActivity : AppCompatActivity(){
 
     var controlHideUIFlag = false
-
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_screen)
@@ -31,7 +37,7 @@ class StartScreenActivity : AppCompatActivity(){
                     controlHideUIFlag = false
                 }
             }
-
+            auth = Firebase.auth
         }
 
         singInButton.setOnClickListener {
@@ -40,7 +46,22 @@ class StartScreenActivity : AppCompatActivity(){
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogView.loginSingInButton.setOnClickListener {
+                auth.signInWithEmailAndPassword(dialogView.emailFromUser.text.toString(),
+                    dialogView.passwordFromUser.text.toString())
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(baseContext, "Authentication success.",
+                                Toast.LENGTH_SHORT).show()
+                            val user = auth.currentUser
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                        }
 
+                    }
+            }
             dialogView.singInBackButton.setOnClickListener {
                 mAlert.dismiss()
             }
@@ -52,7 +73,21 @@ class StartScreenActivity : AppCompatActivity(){
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
+            dialogView.creatSingUpButton.setOnClickListener {
+                auth.createUserWithEmailAndPassword(dialogView.emailFromUserSingUp.text.toString(),
+                dialogView.passwordFromUserSingUp.text.toString())
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(baseContext, "Authentication success.",
+                            Toast.LENGTH_SHORT).show()
+                        var user = auth.currentUser
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
             dialogView.singUpBackButton.setOnClickListener {
                 mAlert.dismiss()
             }
@@ -60,7 +95,17 @@ class StartScreenActivity : AppCompatActivity(){
         }
 
         guestButton.setOnClickListener {
-            //To do...
+            auth.signInAnonymously().addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(baseContext, "Authentication success.",
+                        Toast.LENGTH_SHORT).show()
+                    var user = auth.currentUser
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
