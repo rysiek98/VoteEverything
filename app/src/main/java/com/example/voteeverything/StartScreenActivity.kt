@@ -53,8 +53,7 @@ class StartScreenActivity : AppCompatActivity(){
                             Toast.makeText(baseContext, "Authentication success.",
                                 Toast.LENGTH_SHORT).show()
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.makeText(baseContext, "Authentication failed. Wrong address e-mail or password.",
                                 Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -71,25 +70,34 @@ class StartScreenActivity : AppCompatActivity(){
             val mAlert = mBuilder.show()
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogView.creatSingUpButton.setOnClickListener {
-                auth.createUserWithEmailAndPassword(dialogView.emailFromUserSingUp.text.toString(),
-                dialogView.passwordFromUserSingUp.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        val profileUpdates = userProfileChangeRequest {
-                            displayName = dialogView.nicknameFormUserSingUp.text.toString()
-                        }
-                        user!!.updateProfile(profileUpdates)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(baseContext, "Authentication success.",
-                                        Toast.LENGTH_SHORT).show()
+                val password = dialogView.passwordFromUserSingUp.text.toString()
+                val emial = dialogView.emailFromUserSingUp.text.toString()
+                if (isPasswordValid(password) && isEmailValid(emial)){
+                    auth.createUserWithEmailAndPassword(emial, password)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                val user = auth.currentUser
+                                val profileUpdates = userProfileChangeRequest {
+                                    displayName = dialogView.nicknameFormUserSingUp.text.toString()
                                 }
+                                user!!.updateProfile(profileUpdates)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            Toast.makeText(
+                                                baseContext, "Authentication success.",
+                                                Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                            } else {
+                                Toast.makeText(
+                                    baseContext, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
                             }
-                    } else {
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
-                    }
+                        }
+            }else{
+                    Toast.makeText(
+                        baseContext, "Wrong password length or wrong e-mial address. Your password should have 6 characters or more.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
             dialogView.singUpBackButton.setOnClickListener {
@@ -134,6 +142,19 @@ class StartScreenActivity : AppCompatActivity(){
                 // Hide the nav bar and status bar
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
+    //Simply password validation fun
+    fun isPasswordValid(password: String): Boolean{
+        return if(password.isNotEmpty()) {
+            password.length > 5
+        }else{
+            false
+        }
+    }
+
+    fun isEmailValid(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
 }
