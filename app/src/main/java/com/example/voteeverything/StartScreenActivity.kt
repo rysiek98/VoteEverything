@@ -22,6 +22,7 @@ class StartScreenActivity : AppCompatActivity(){
 
     var controlHideUIFlag = false
     private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_screen)
@@ -44,20 +45,26 @@ class StartScreenActivity : AppCompatActivity(){
             val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_in_dialog, null)
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
+
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogView.loginSingInButton.setOnClickListener {
-                auth.signInWithEmailAndPassword(dialogView.emailFromUser.text.toString(),
-                    dialogView.passwordFromUser.text.toString())
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(baseContext, "Authentication success.",
-                                Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(baseContext, "Authentication failed. Wrong address e-mail or password.",
-                                Toast.LENGTH_SHORT).show()
+                dialogView.loginSingInButton.setOnClickListener {
+                    val password = dialogView.passwordFromUser.text.toString()
+                    val emial = dialogView.emailFromUser.text.toString()
+                    if (password.isNotEmpty() && emial.isNotEmpty()) {
+                    auth.signInWithEmailAndPassword(emial,password)
+                        .addOnCompleteListener(this) { task ->
+                            if (!task.isSuccessful) {
+                                Toast.makeText(baseContext,
+                                    "Authentication failed. Wrong address e-mail or password.",
+                                    Toast.LENGTH_SHORT).show()
+                            }
                         }
+                    }else{
+                        Toast.makeText(baseContext,
+                            "Oh no! You forgot to enter e-mail & password.",
+                            Toast.LENGTH_SHORT).show()
                     }
-            }
+                }
             dialogView.singInBackButton.setOnClickListener {
                 mAlert.dismiss()
             }
@@ -68,6 +75,7 @@ class StartScreenActivity : AppCompatActivity(){
             val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_up_dialog, null)
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
+
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogView.creatSingUpButton.setOnClickListener {
                 val password = dialogView.passwordFromUserSingUp.text.toString()
@@ -82,16 +90,11 @@ class StartScreenActivity : AppCompatActivity(){
                                 }
                                 user!!.updateProfile(profileUpdates)
                                     .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            Toast.makeText(
-                                                baseContext, "Authentication success.",
+                                        if (!task.isSuccessful) {
+                                            Toast.makeText(baseContext, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show()
                                         }
                                     }
-                            } else {
-                                Toast.makeText(
-                                    baseContext, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
                             }
                         }
             }else{
@@ -152,7 +155,7 @@ class StartScreenActivity : AppCompatActivity(){
             false
         }
     }
-
+    //E-mail validation fun
     fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
