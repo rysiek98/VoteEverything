@@ -28,10 +28,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.099" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/singInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:backgroundTint="@null"
         android:background="@drawable/start_activity_buttons"
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
@@ -48,12 +49,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.379" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/singUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/start_activity_buttons"
+        app:backgroundTint="@null"
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
         android:padding="10dp"
@@ -69,11 +71,12 @@
         app:layout_constraintTop_toBottomOf="@+id/singInButton"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/guestButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/start_activity_buttons"
+        app:backgroundTint="@null"
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
         android:padding="10dp"
@@ -89,11 +92,12 @@
         app:layout_constraintTop_toBottomOf="@+id/singUpButton"
         app:layout_constraintVertical_bias="0.104" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/exitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/start_activity_buttons"
+        app:backgroundTint="@null"
         android:elevation="20sp"
         android:fontFamily="@font/allerta"
         android:padding="10dp"

@@ -1,6 +1,7 @@
 package com.example.voteeverything
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -57,7 +58,7 @@ class StartScreenActivity : AppCompatActivity(){
                                 Toast.makeText(baseContext,
                                     "Authentication failed. Wrong address e-mail or password.",
                                     Toast.LENGTH_SHORT).show()
-                            }
+                            }else{openMainWindow()}
                         }
                     }else{
                         Toast.makeText(baseContext,
@@ -93,7 +94,7 @@ class StartScreenActivity : AppCompatActivity(){
                                         if (!task.isSuccessful) {
                                             Toast.makeText(baseContext, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show()
-                                        }
+                                        }else{openMainWindow()}
                                     }
                             }
                         }
@@ -112,8 +113,7 @@ class StartScreenActivity : AppCompatActivity(){
         guestButton.setOnClickListener {
             auth.signInAnonymously().addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(baseContext, "Authentication success.",
-                        Toast.LENGTH_SHORT).show()
+                    openMainWindow()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -159,5 +159,12 @@ class StartScreenActivity : AppCompatActivity(){
     fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
+
+    fun openMainWindow(){
+        val mainWindow = Intent(applicationContext,MainWindowActivity::class.java)
+        //Do przeslania danych -> startGame.putExtra("ID_gameType", gameTypeData.text)
+        startActivity(mainWindow)
+    }
+
 
 }
