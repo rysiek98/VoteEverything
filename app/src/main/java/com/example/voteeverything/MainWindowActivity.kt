@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main_window.*
 
 
@@ -28,16 +31,19 @@ class MainWindowActivity : AppCompatActivity() {
             }
         }
 
-        createPoolBt.setOnClickListener {
+        val user = Firebase.auth.currentUser
+
+        createPoolMWindowBt.setOnClickListener {
             val createPoolWindow = Intent(applicationContext,CreatePoolActivity::class.java)
-            //Do przeslania danych -> createPoolWindow.putExtra("ID_gameType", gameTypeData.text)
             startActivity(createPoolWindow)
         }
 
+        logoutMWindowBt.setOnClickListener {
+            Firebase.auth.signOut()
+            finish()
+        }
+
     }
-
-
-
 
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

@@ -24,31 +24,37 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.748">
 
-        <Button
-            android:id="@+id/singInBackButton"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backSingInBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/start_activity_buttons"
+            android:drawableLeft="@drawable/ic_baseline_arrow_back"
+            android:drawableTint="#FFFFFF"
             android:fontFamily="@font/allerta"
             android:text="@string/back"
-            android:textColor="#1560AC"
-            android:textSize="20sp" />
+            android:textColor="#FEFFFF"
+            android:textSize="20sp"
+            app:backgroundTint="@null" />
 
-        <Button
-            android:id="@+id/loginSingInButton"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginSingInBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:background="@drawable/start_activity_buttons"
+            android:drawableRight="@drawable/ic_baseline_login"
+            android:drawableTint="#FFFFFF"
             android:fontFamily="@font/allerta"
             android:text="@string/login"
-            android:textColor="#1560AC"
-            android:textSize="20sp" />
+            android:textColor="#FEFFFF"
+            android:textSize="20sp"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +88,7 @@
             android:ems="10"
             android:fontFamily="@font/allerta"
             android:inputType="textEmailAddress"
-            android:textColor="#6F30DF" />
+            android:textColor="#FEFFFF" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,7 +121,7 @@
             android:ems="10"
             android:fontFamily="@font/allerta"
             android:inputType="textPassword"
-            android:textColor="#6F30DF" />
+            android:textColor="#FEFFFF" />
     </LinearLayout>
 
     <TextView

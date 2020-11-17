@@ -25,8 +25,8 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
         app:layout_constraintVertical_bias="1.0">
 
-        <Button
-            android:id="@+id/singUpBackButton"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backSingUpBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -35,21 +35,27 @@
             android:background="@drawable/start_activity_buttons"
             android:fontFamily="@font/allerta"
             android:text="@string/back"
-            android:textColor="#1560AC"
-            android:textSize="20sp" />
+            android:textColor="#FCFDFD"
+            android:textSize="20sp"
+            app:backgroundTint="@null"
+            android:drawableLeft="@drawable/ic_baseline_arrow_back"
+            android:drawableTint="#FFFFFF"/>
 
-        <Button
-            android:id="@+id/creatSingUpButton"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/createSingUpBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:background="@drawable/start_activity_buttons"
+            android:drawableRight="@drawable/ic_baseline_create_mini"
+            android:drawableTint="#FFFFFF"
             android:fontFamily="@font/allerta"
             android:text="@string/create"
-            android:textColor="#1560AC"
-            android:textSize="20sp" />
+            android:textColor="#FCFDFD"
+            android:textSize="20sp"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +88,7 @@
             android:ems="10"
             android:fontFamily="@font/allerta"
             android:inputType="textEmailAddress"
-            android:textColor="#6F30DF" />
+            android:textColor="#FCFDFD" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,7 +121,7 @@
             android:ems="10"
             android:fontFamily="@font/allerta"
             android:inputType="textPassword"
-            android:textColor="#6F30DF" />
+            android:textColor="#FCFDFD" />
     </LinearLayout>
 
     <TextView
@@ -165,7 +171,7 @@
             android:fontFamily="@font/allerta"
             android:hint="@string/usernameFromUser"
             android:inputType="textPersonName"
-            android:textColor="#6F30DF" />
+            android:textColor="#FCFDFD" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

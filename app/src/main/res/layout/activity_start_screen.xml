@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF9800"
+    android:background="#FFC107"
     android:elevation="20dp"
     tools:context=".StartScreenActivity">
 
@@ -12,13 +12,13 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FF9800"
-        android:fontFamily="casual"
+        android:background="#FFC107"
+        android:fontFamily="@font/arbutus"
         android:letterSpacing="0.2"
         android:lineSpacingExtra="8sp"
         android:text="@string/app_name_with_space"
         android:textAlignment="center"
-        android:textColor="#F6F4DF"
+        android:textColor="#F4F4F4"
         android:textSize="36sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,10 +29,10 @@
         app:layout_constraintVertical_bias="0.099" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/singInButton"
+        android:id="@+id/singInSScreenBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@null"
+        android:layout_marginTop="32dp"
         android:background="@drawable/start_activity_buttons"
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
@@ -42,6 +42,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -50,12 +51,11 @@
         app:layout_constraintVertical_bias="0.379" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/singUpButton"
+        android:id="@+id/singUpSScreenBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/start_activity_buttons"
-        app:backgroundTint="@null"
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
         android:padding="10dp"
@@ -64,19 +64,19 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singInButton"
+        app:layout_constraintTop_toBottomOf="@+id/singInSScreenBt"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/guestButton"
+        android:id="@+id/guestSScreenBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/start_activity_buttons"
-        app:backgroundTint="@null"
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
         android:padding="10dp"
@@ -85,30 +85,31 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singUpButton"
+        app:layout_constraintTop_toBottomOf="@+id/singUpSScreenBt"
         app:layout_constraintVertical_bias="0.104" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/exitButton"
+        android:id="@+id/exitSScreenBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/start_activity_buttons"
-        app:backgroundTint="@null"
         android:elevation="20sp"
         android:fontFamily="@font/allerta"
         android:padding="10dp"
+        android:stateListAnimator="@null"
         android:text="@string/exitButton"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guestButton"
-        app:layout_constraintVertical_bias="0.147"
-        android:stateListAnimator="@null"/>
+        app:layout_constraintTop_toBottomOf="@+id/guestSScreenBt"
+        app:layout_constraintVertical_bias="0.147" />
 </androidx.constraintlayout.widget.ConstraintLayout>

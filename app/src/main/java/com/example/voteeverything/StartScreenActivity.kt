@@ -41,14 +41,14 @@ class StartScreenActivity : AppCompatActivity(){
             auth = Firebase.auth
         }
 
-        singInButton.setOnClickListener {
+        singInSScreenBt.setOnClickListener {
             controlHideUIFlag = true
             val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_in_dialog, null)
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
 
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialogView.loginSingInButton.setOnClickListener {
+                dialogView.loginSingInBt.setOnClickListener {
                     val password = dialogView.passwordFromUser.text.toString()
                     val emial = dialogView.emailFromUser.text.toString()
                     if (password.isNotEmpty() && emial.isNotEmpty()) {
@@ -58,7 +58,9 @@ class StartScreenActivity : AppCompatActivity(){
                                 Toast.makeText(baseContext,
                                     "Authentication failed. Wrong address e-mail or password.",
                                     Toast.LENGTH_SHORT).show()
-                            }else{openMainWindow()}
+                            }else{
+                                openMainWindow()
+                            }
                         }
                     }else{
                         Toast.makeText(baseContext,
@@ -66,19 +68,19 @@ class StartScreenActivity : AppCompatActivity(){
                             Toast.LENGTH_SHORT).show()
                     }
                 }
-            dialogView.singInBackButton.setOnClickListener {
+            dialogView.backSingInBt.setOnClickListener {
                 mAlert.dismiss()
             }
         }
 
-        singUpButton.setOnClickListener {
+        singUpSScreenBt.setOnClickListener {
             controlHideUIFlag = true
             val dialogView = LayoutInflater.from(this).inflate(R.layout.sing_up_dialog, null)
             val mBuilder = AlertDialog.Builder(this).setView(dialogView)
             val mAlert = mBuilder.show()
 
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogView.creatSingUpButton.setOnClickListener {
+            dialogView.createSingUpBt.setOnClickListener {
                 val password = dialogView.passwordFromUserSingUp.text.toString()
                 val emial = dialogView.emailFromUserSingUp.text.toString()
                 if (isPasswordValid(password) && isEmailValid(emial)){
@@ -104,16 +106,15 @@ class StartScreenActivity : AppCompatActivity(){
                         Toast.LENGTH_SHORT).show()
                 }
             }
-            dialogView.singUpBackButton.setOnClickListener {
+            dialogView.backSingUpBt.setOnClickListener {
                 mAlert.dismiss()
             }
-
         }
 
-        guestButton.setOnClickListener {
+        guestSScreenBt.setOnClickListener {
             auth.signInAnonymously().addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    openMainWindow()
+                   openMainWindow()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -121,7 +122,7 @@ class StartScreenActivity : AppCompatActivity(){
             }
         }
 
-        exitButton.setOnClickListener {
+        exitSScreenBt.setOnClickListener {
             finish()
         }
 
@@ -162,7 +163,6 @@ class StartScreenActivity : AppCompatActivity(){
 
     fun openMainWindow(){
         val mainWindow = Intent(applicationContext,MainWindowActivity::class.java)
-        //Do przeslania danych -> startGame.putExtra("ID_gameType", gameTypeData.text)
         startActivity(mainWindow)
     }
 

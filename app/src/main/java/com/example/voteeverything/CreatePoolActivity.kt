@@ -1,14 +1,14 @@
 package com.example.voteeverything
 
-import android.R.layout
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_create_pool.*
 
 
@@ -29,10 +29,15 @@ class CreatePoolActivity : AppCompatActivity() {
                     controlHideUIFlag = false
                 }
             }
-
         }
 
-        addOption.setOnClickListener {
+        val user = Firebase.auth.currentUser
+
+        backCPoolBt.setOnClickListener {
+            finish()
+        }
+
+        addOptionCPoolBt.setOnClickListener {
             val newElement = EditText(this)
             newElement.hint = option1.hint.toString()
             newElement.typeface = option1.typeface
@@ -42,7 +47,7 @@ class CreatePoolActivity : AppCompatActivity() {
             container.addView(newElement)
         }
 
-        deleteOption.setOnClickListener {
+        deleteOptionCPoolBt.setOnClickListener {
             val container = findViewById<View>(R.id.optionsContainer) as LinearLayout
             if(container.size > 2){
                 container.removeViewAt(container.size - 1)

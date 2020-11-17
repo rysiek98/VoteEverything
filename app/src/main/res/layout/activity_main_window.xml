@@ -11,7 +11,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/allerta"
+        android:fontFamily="@font/arbutus"
         android:text="@string/app_name_with_space"
         android:textAlignment="center"
         android:textColor="#FBFBFB"
@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.213" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutBt"
+        android:id="@+id/logoutMWindowBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:background="@drawable/main_window_buttons60dp"
         app:backgroundTint="@null"
         app:elevation="20dp"
-        app:icon="@drawable/ic_baseline_login_24"
+        app:icon="@drawable/ic_baseline_login"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="0.046" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/userProfBt"
+        android:id="@+id/userProfMWindowBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,18 +50,18 @@
         android:background="@drawable/main_window_buttons60dp"
         app:backgroundTint="@null"
         app:elevation="20dp"
-        app:icon="@drawable/ic_baseline_supervised_user_circle_24"
+        app:icon="@drawable/ic_baseline_supervised_user_circle"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.942"
-        app:layout_constraintStart_toEndOf="@+id/logoutBt"
+        app:layout_constraintStart_toEndOf="@+id/logoutMWindowBt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.046" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/availablePoolsBt"
+        android:id="@+id/availablePoolsMWindowBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         android:background="@drawable/main_window_buttons"
         app:backgroundTint="@null"
         app:elevation="20dp"
-        app:icon="@drawable/ic_baseline_collections_24"
+        app:icon="@drawable/ic_baseline_collections"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="0.475" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/createPoolBt"
+        android:id="@+id/createPoolMWindowBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,13 +86,13 @@
         android:background="@drawable/main_window_buttons"
         app:backgroundTint="@null"
         app:elevation="20dp"
-        app:icon="@drawable/ic_baseline_create_24"
+        app:icon="@drawable/ic_baseline_create"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toEndOf="@+id/availablePoolsBt"
+        app:layout_constraintStart_toEndOf="@+id/availablePoolsMWindowBt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.475" />
 </androidx.constraintlayout.widget.ConstraintLayout>
