@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.213" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutMainWindowBt"
+        android:id="@+id/logoutBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="0.046" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/userProfMainWindowBt"
+        android:id="@+id/userProfBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,12 +56,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.942"
-        app:layout_constraintStart_toEndOf="@+id/logoutMainWindowBt"
+        app:layout_constraintStart_toEndOf="@+id/logoutBt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.046" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/availablePoolsMainWindowBt"
+        android:id="@+id/availablePoolsBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="0.475" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/createPoolMainWindowBt"
+        android:id="@+id/createPoolBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toEndOf="@+id/availablePoolsMainWindowBt"
+        app:layout_constraintStart_toEndOf="@+id/availablePoolsBt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.475" />
 </androidx.constraintlayout.widget.ConstraintLayout>

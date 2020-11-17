@@ -14,4 +14,10 @@
     <string name="username">Username:</string>
     <string name="usernameFromUser">Username...</string>
     <string name="exitButton">Exit</string>
+    <string name="createPool">Create Pool</string>
+    <string name="enterPoolName">Please enter pool title...</string>
+    <string name="options">Please enter option...</string>
+    <string name="addOption">option</string>
+    <string name="deleteOption">option</string>
+
 </resources>

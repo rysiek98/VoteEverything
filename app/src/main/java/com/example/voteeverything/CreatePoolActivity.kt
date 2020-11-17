@@ -1,20 +1,23 @@
 package com.example.voteeverything
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.R.layout
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import kotlinx.android.synthetic.main.activity_main_window.*
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.size
+import kotlinx.android.synthetic.main.activity_create_pool.*
 
 
-class MainWindowActivity : AppCompatActivity() {
+class CreatePoolActivity : AppCompatActivity() {
 
     var controlHideUIFlag = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_window)
+        setContentView(R.layout.activity_create_pool)
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             // Note that system bars will only be "visible" if none of the
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
@@ -26,18 +29,26 @@ class MainWindowActivity : AppCompatActivity() {
                     controlHideUIFlag = false
                 }
             }
+
         }
 
-        createPoolBt.setOnClickListener {
-            val createPoolWindow = Intent(applicationContext,CreatePoolActivity::class.java)
-            //Do przeslania danych -> createPoolWindow.putExtra("ID_gameType", gameTypeData.text)
-            startActivity(createPoolWindow)
+        addOption.setOnClickListener {
+            val newElement = EditText(this)
+            newElement.hint = option1.hint.toString()
+            newElement.typeface = option1.typeface
+            newElement.setTextColor(option1.textColors)
+            newElement.textSize = 20F
+            val container = findViewById<View>(R.id.optionsContainer) as LinearLayout
+            container.addView(newElement)
         }
 
+        deleteOption.setOnClickListener {
+            val container = findViewById<View>(R.id.optionsContainer) as LinearLayout
+            if(container.size > 2){
+                container.removeViewAt(container.size - 1)
+            }
+        }
     }
-
-
-
 
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
