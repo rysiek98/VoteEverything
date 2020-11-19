@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreatePoolActivity"></activity>
+        <activity android:name=".CreateSurveyActivity"></activity>
         <activity android:name=".MainWindowActivity" />
         <activity android:name=".StartScreenActivity">
             <intent-filter>

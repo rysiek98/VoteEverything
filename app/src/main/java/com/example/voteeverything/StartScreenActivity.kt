@@ -60,6 +60,7 @@ class StartScreenActivity : AppCompatActivity(){
                                     Toast.LENGTH_SHORT).show()
                             }else{
                                 openMainWindow()
+                                mAlert.dismiss()
                             }
                         }
                     }else{
@@ -96,7 +97,10 @@ class StartScreenActivity : AppCompatActivity(){
                                         if (!task.isSuccessful) {
                                             Toast.makeText(baseContext, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show()
-                                        }else{openMainWindow()}
+                                        }else{
+                                            openMainWindow()
+                                            mAlert.dismiss()
+                                        }
                                     }
                             }
                         }

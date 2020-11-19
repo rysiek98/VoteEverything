@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFC107"
-    tools:context=".CreatePoolActivity">
+    tools:context=".CreateSurveyActivity">
 
     <TextView
         android:id="@+id/textView3"
@@ -14,7 +14,7 @@
         android:elevation="20dp"
         android:fontFamily="@font/allerta"
         android:padding="5dp"
-        android:text="@string/createPool"
+        android:text="@string/createSurvey"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
         android:textStyle="bold|italic"
@@ -26,12 +26,12 @@
         app:layout_constraintVertical_bias="0.043" />
 
     <EditText
-        android:id="@+id/poolName"
+        android:id="@+id/surveyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:fontFamily="@font/allerta"
-        android:hint="@string/enterPoolName"
+        android:hint="@string/enterSurveyName"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -87,7 +87,7 @@
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/addOptionCPoolBt"
+        android:id="@+id/addOptionCSurveyBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
         app:layout_constraintVertical_bias="0.333" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/deleteOptionCPoolBt"
+        android:id="@+id/deleteOptionCSurveyBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
         app:layout_constraintVertical_bias="0.333" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/createCPoolBt"
+        android:id="@+id/createCSurveyBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
         app:layout_constraintVertical_bias="0.589" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/backCPoolBt"
+        android:id="@+id/backCSurveyBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
