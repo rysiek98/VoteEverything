@@ -32,9 +32,14 @@ class MainWindowActivity : AppCompatActivity() {
 
         val user = Firebase.auth.currentUser
 
-        createPoolMWindowBt.setOnClickListener {
-            val createPoolWindow = Intent(applicationContext,CreateSurveyActivity::class.java)
-            startActivity(createPoolWindow)
+        availableSurveysMWindowBt.setOnClickListener {
+            val availableSurveyWindow = Intent(applicationContext,ViewSurveysActivity::class.java)
+            startActivity(availableSurveyWindow)
+        }
+
+        createSurveyMWindowBt.setOnClickListener {
+            val createSurveyWindow = Intent(applicationContext,CreateSurveyActivity::class.java)
+            startActivity(createSurveyWindow)
         }
 
         logoutMWindowBt.setOnClickListener {

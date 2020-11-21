@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.core.view.size
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_create_survey.*
@@ -38,7 +39,10 @@ class CreateSurveyActivity : AppCompatActivity() {
         }
 
         val user = Firebase.auth.currentUser
+        val users = Firebase.auth
         val db = Firebase.firestore
+        val docRefTitles = db.collection("dbInfo").document("listOfTitles")
+        val docRefSurveys = db.collection("dbInfo").document("surveys")
 
 
         backCSurveyBt.setOnClickListener {
@@ -64,13 +68,17 @@ class CreateSurveyActivity : AppCompatActivity() {
         }
 
         createCSurveyBt.setOnClickListener {
+
             val title = surveyTitle.text.toString()
             val container = findViewById<View>(R.id.optionsContainer) as LinearLayout
             val option1 = container.findViewById<EditText>(R.id.option1).text.toString()
             val option2 = container.findViewById<EditText>(R.id.option2).text.toString()
             var options: ArrayList<String> = ArrayList()
             var votes: ArrayList<Int> = ArrayList()
+            var listOfTitles: ArrayList<String> = ArrayList()
+            var surveys:  ArrayList<String> = ArrayList()
 
+            //Adding survey
             if (title.isNotEmpty() && option1.isNotEmpty() && option2.isNotEmpty()) {
                 options.add(option1)
                 votes.add(0)
@@ -95,7 +103,7 @@ class CreateSurveyActivity : AppCompatActivity() {
                     "votes" to votes
                 )
 
-                db.collection(title)
+                db.collection(user?.uid.toString())
                     .add(survey)
                     .addOnSuccessListener { documentReference ->
                         Toast.makeText(baseContext,"Success!",Toast.LENGTH_SHORT)
@@ -105,6 +113,47 @@ class CreateSurveyActivity : AppCompatActivity() {
                         Toast.makeText(baseContext,"Failure!",Toast.LENGTH_SHORT)
                             .show()
                     }
+
+                //Adding title to titleList
+                docRefTitles.get()
+                    .addOnSuccessListener { DocumentSnapshot->
+                        if(DocumentSnapshot.exists()){
+                            if(DocumentSnapshot.contains("titleList")) {
+                                listOfTitles =
+                                    DocumentSnapshot.get("titleList") as ArrayList<String>
+                            }
+                            listOfTitles.add(title)
+                            updatelistOfTitles(listOfTitles, db)
+                        }else{
+                            listOfTitles.add(title)
+                            updatelistOfTitles(listOfTitles, db)
+                        }
+                    }
+                    .addOnFailureListener {
+                        listOfTitles.add(title)
+                        updatelistOfTitles(listOfTitles, db)
+                    }
+
+                //Adding uid-survey to uid-surveyList
+                val user = user?.uid.toString()
+                docRefSurveys.get()
+                    .addOnSuccessListener { DocumentSnapshot->
+                        if(DocumentSnapshot.exists()){
+                            if(DocumentSnapshot.contains(user)) {
+                                surveys = DocumentSnapshot.get(user) as ArrayList<String>
+                            }
+                            surveys.add(title)
+                            updateSurveys(user, surveys, db)
+                        }else{
+                            surveys.add(title)
+                            updateSurveys(user,surveys,db)
+                        }
+                    }
+                    .addOnFailureListener {
+                        surveys.add(title)
+                        updateSurveys(user,surveys, db)
+                    }
+
             }else{
                 Toast.makeText(baseContext,"Please enter all necessary data.",Toast.LENGTH_SHORT)
                     .show()
@@ -118,6 +167,22 @@ class CreateSurveyActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) hideSystemUI()
+    }
+
+    private fun updatelistOfTitles(titleList: ArrayList<String>, db: FirebaseFirestore){
+        val data   = hashMapOf(
+            "titleList" to titleList
+        )
+        db.collection("dbInfo").document("listOfTitles")
+            .set(data)
+    }
+
+    private fun updateSurveys(user: String, surveys: ArrayList<String>, db: FirebaseFirestore){
+        val data   = hashMapOf(
+            user to surveys
+        )
+        db.collection("dbInfo").document("surveys")
+            .update(data as Map<String, Any>)
     }
 
     private fun hideSystemUI() {

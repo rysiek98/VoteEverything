@@ -61,7 +61,7 @@
         app:layout_constraintVertical_bias="0.046" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/availablePoolsMWindowBt"
+        android:id="@+id/availableSurveysMWindowBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="0.475" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/createPoolMWindowBt"
+        android:id="@+id/createSurveyMWindowBt"
         style="@style/MainWindowButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toEndOf="@+id/availablePoolsMWindowBt"
+        app:layout_constraintStart_toEndOf="@+id/availableSurveysMWindowBt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.475" />
 </androidx.constraintlayout.widget.ConstraintLayout>

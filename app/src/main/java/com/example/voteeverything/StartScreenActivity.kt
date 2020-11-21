@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_start_screen.*
 import kotlinx.android.synthetic.main.sing_in_dialog.view.*
@@ -40,6 +42,9 @@ class StartScreenActivity : AppCompatActivity(){
             }
             auth = Firebase.auth
         }
+
+        val db = Firebase.firestore
+        val docRef = db.collection("dbInfo").document("users")
 
         singInSScreenBt.setOnClickListener {
             controlHideUIFlag = true
@@ -116,8 +121,29 @@ class StartScreenActivity : AppCompatActivity(){
         }
 
         guestSScreenBt.setOnClickListener {
+            val userUID = auth.currentUser?.uid.toString()
             auth.signInAnonymously().addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    var users: ArrayList<String> = ArrayList()
+                    docRef.get()
+                        .addOnSuccessListener { DocumentSnapshot->
+                            if(DocumentSnapshot.exists()){
+                                users = DocumentSnapshot.get("users") as ArrayList<String>
+                                if(users.stream()
+                                    .noneMatch { user -> user == userUID })
+                                {
+                                    users.add(auth.currentUser?.uid.toString())
+                                    updateUsers(users, db)
+                                }
+                            }else{
+                                Toast.makeText(baseContext, "Erro in docRef.get()",
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        .addOnFailureListener {
+                            users.add(userUID)
+                            updateUsers(users, db)
+                        }
                    openMainWindow()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
@@ -168,6 +194,14 @@ class StartScreenActivity : AppCompatActivity(){
     fun openMainWindow(){
         val mainWindow = Intent(applicationContext,MainWindowActivity::class.java)
         startActivity(mainWindow)
+    }
+
+    private fun updateUsers(userUID: ArrayList<String>, db: FirebaseFirestore){
+        val data   = hashMapOf(
+            "users" to userUID
+        )
+        db.collection("dbInfo").document("users")
+            .set(data)
     }
 
 
