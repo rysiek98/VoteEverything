@@ -1,28 +1,23 @@
 package com.example.voteeverything
 
-import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Toast
-import androidx.core.view.size
-import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
+import android.widget.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_view_surveys.*
+import kotlinx.android.synthetic.main.activity_view_survey.*
 
-class ViewSurveysActivity : AppCompatActivity() {
+class ViewSurveyActivity : AppCompatActivity() {
 
     var controlHideUIFlag = false
+    val db = Firebase.firestore
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_surveys)
+        setContentView(R.layout.activity_view_survey)
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             // Note that system bars will only be "visible" if none of the
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
@@ -36,34 +31,29 @@ class ViewSurveysActivity : AppCompatActivity() {
             }
         }
 
+        val title = getIntent().getStringExtra("title")
+        val userUID = getIntent().getStringExtra("user")
+        val docRefSurvey = db.collection(userUID).document(title)
+        var options: ArrayList<String> = ArrayList()
 
-        val db = Firebase.firestore
-        val docRefSurveys = db.collection("dbInfo").document("surveys")
-        val container = findViewById<View>(R.id.surveysContainer) as LinearLayout
-        var userToSurvey: ArrayList<String> = ArrayList()
-
-
-
-        docRefSurveys.get()
+        docRefSurvey.get()
             .addOnSuccessListener { DocumentSnapshot->
                 if(DocumentSnapshot.exists()){
-                    userToSurvey = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
-                    paintSurveys(userToSurvey,container)
+                    options = DocumentSnapshot.get("options") as ArrayList<String>
+                    setOptionsText(options)
                 }else{
-                    Toast.makeText(baseContext,"Data not found!",Toast.LENGTH_SHORT)
+                    Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
-                    .show()
-            }
 
+        surveyTitleVSurvey.text = title
 
-        backVSurveysBt.setOnClickListener {
+        backVSurveyBt.setOnClickListener {
             finish()
         }
     }
+
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -85,23 +75,16 @@ class ViewSurveysActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
-    private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout){
-        for(i in 1..(userToSurvey.size-1) step 2){
-            val newElement = MaterialButton(this)
-            newElement.text = userToSurvey.get(i)
-            newElement.id = container.size+1
-            newElement.setBackgroundColor(Color.BLACK)
-            newElement.setTextColor(Color.WHITE)
-            newElement.cornerRadius = 20
-            container.addView(newElement)
+    private fun setOptionsText(options: ArrayList<String>){
 
-            newElement.setOnClickListener {
-                val surveyWindow = Intent(applicationContext,ViewSurveyActivity::class.java)
-                surveyWindow.putExtra("title", userToSurvey.get(i))
-                surveyWindow.putExtra("user", userToSurvey.get(i-1))
-                startActivity(surveyWindow)
-            }
-        }
+       for(i in 0..(options.size -1)){
+           val newElement = RadioButton(this)
+           val container = findViewById<View>(R.id.rgContainer) as RadioGroup
+           newElement.id = i
+           newElement.text = options[i]
+           container.addView(newElement)
+       }
+
     }
 
 }

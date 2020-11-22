@@ -103,8 +103,8 @@ class CreateSurveyActivity : AppCompatActivity() {
                     "votes" to votes
                 )
 
-                db.collection(user?.uid.toString())
-                    .add(survey)
+                db.collection(user?.uid.toString()).document(title)
+                    .set(survey)
                     .addOnSuccessListener { documentReference ->
                         Toast.makeText(baseContext,"Success!",Toast.LENGTH_SHORT)
                             .show()
@@ -139,19 +139,22 @@ class CreateSurveyActivity : AppCompatActivity() {
                 docRefSurveys.get()
                     .addOnSuccessListener { DocumentSnapshot->
                         if(DocumentSnapshot.exists()){
-                            if(DocumentSnapshot.contains(user)) {
-                                surveys = DocumentSnapshot.get(user) as ArrayList<String>
+                            if(DocumentSnapshot.contains("userToSurvey")) {
+                                surveys = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
                             }
+                            surveys.add(user)
                             surveys.add(title)
-                            updateSurveys(user, surveys, db)
+                            updateSurveys(surveys, db)
                         }else{
+                            surveys.add(user)
                             surveys.add(title)
-                            updateSurveys(user,surveys,db)
+                            updateSurveys(surveys,db)
                         }
                     }
                     .addOnFailureListener {
+                        surveys.add(user)
                         surveys.add(title)
-                        updateSurveys(user,surveys, db)
+                        updateSurveys(surveys, db)
                     }
 
             }else{
@@ -177,9 +180,9 @@ class CreateSurveyActivity : AppCompatActivity() {
             .set(data)
     }
 
-    private fun updateSurveys(user: String, surveys: ArrayList<String>, db: FirebaseFirestore){
+    private fun updateSurveys( surveys: ArrayList<String>, db: FirebaseFirestore){
         val data   = hashMapOf(
-            user to surveys
+            "userToSurvey" to surveys
         )
         db.collection("dbInfo").document("surveys")
             .update(data as Map<String, Any>)

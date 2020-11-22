@@ -20,5 +20,6 @@
     <string name="addOption">option</string>
     <string name="deleteOption">option</string>
     <string name="availableSurveys">Available Surveys</string>
+    <string name="vote">Vote</string>
 
 </resources>
