@@ -10,8 +10,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.size
 import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_view_surveys.*
@@ -48,7 +47,7 @@ class ViewSurveysActivity : AppCompatActivity() {
             .addOnSuccessListener { DocumentSnapshot->
                 if(DocumentSnapshot.exists()){
                     userToSurvey = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
-                    paintSurveys(userToSurvey,container)
+                    paintSurveys(userToSurvey,container, db)
                 }else{
                     Toast.makeText(baseContext,"Data not found!",Toast.LENGTH_SHORT)
                         .show()
@@ -85,7 +84,10 @@ class ViewSurveysActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
-    private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout){
+    private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout, db: FirebaseFirestore){
+        val surveyWindow = Intent(applicationContext,VoteOnSurveyActivity::class.java)
+        val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
+
         for(i in 1..(userToSurvey.size-1) step 2){
             val newElement = MaterialButton(this)
             newElement.text = userToSurvey.get(i)
@@ -94,13 +96,36 @@ class ViewSurveysActivity : AppCompatActivity() {
             newElement.setTextColor(Color.WHITE)
             newElement.cornerRadius = 20
             container.addView(newElement)
+            val userUID = userToSurvey.get(i-1)
+            val title = userToSurvey.get(i)
 
             newElement.setOnClickListener {
-                val surveyWindow = Intent(applicationContext,ViewSurveyActivity::class.java)
-                surveyWindow.putExtra("title", userToSurvey.get(i))
-                surveyWindow.putExtra("user", userToSurvey.get(i-1))
-                startActivity(surveyWindow)
+                db.collection(userUID).document(title).get()
+                    .addOnSuccessListener { DocumentSnapshot->
+                        if(DocumentSnapshot.exists()){
+                            val tmp = DocumentSnapshot.get("voters") as ArrayList<String>
+                            if(tmp.stream()
+                                    .noneMatch { user -> user == userUID }){
+                                surveyWindow.putExtra("title",title)
+                                surveyWindow.putExtra("user", userUID)
+                                startActivity(surveyWindow)
+                            }else{
+                                startActivity(votesWindow)
+                            }
+                        }else{
+
+                            surveyWindow.putExtra("title",title)
+                            surveyWindow.putExtra("user", userUID)
+                            startActivity(surveyWindow)
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
             }
+
         }
     }
 

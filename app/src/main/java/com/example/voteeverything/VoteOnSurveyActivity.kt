@@ -1,15 +1,19 @@
 package com.example.voteeverything
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.*
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_view_survey.*
+import kotlinx.android.synthetic.main.activity_vote_on_survey.*
 
-class ViewSurveyActivity : AppCompatActivity() {
+class VoteOnSurveyActivity : AppCompatActivity() {
 
     var controlHideUIFlag = false
     val db = Firebase.firestore
@@ -17,7 +21,7 @@ class ViewSurveyActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_survey)
+        setContentView(R.layout.activity_vote_on_survey)
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             // Note that system bars will only be "visible" if none of the
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
@@ -35,19 +39,32 @@ class ViewSurveyActivity : AppCompatActivity() {
         val userUID = getIntent().getStringExtra("user")
         val docRefSurvey = db.collection(userUID).document(title)
         var options: ArrayList<String> = ArrayList()
+        var votes: ArrayList<Int> = ArrayList()
+        var voters: ArrayList<String> = ArrayList()
 
         docRefSurvey.get()
             .addOnSuccessListener { DocumentSnapshot->
                 if(DocumentSnapshot.exists()){
                     options = DocumentSnapshot.get("options") as ArrayList<String>
-                    setOptionsText(options)
+                    votes.addAll(DocumentSnapshot.get("votes") as ArrayList<Int>)
+                    voters.addAll(DocumentSnapshot.get("voters") as ArrayList<String>)
+                    setOptions(options)
                 }else{
-                    Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
+                    Toast.makeText(baseContext, "Data not found!", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
 
         surveyTitleVSurvey.text = title
+
+        voteVSurveyBt.setOnClickListener {
+            val radioButtonID: Int = rgContainer.checkedRadioButtonId
+            votes[radioButtonID] = votes[radioButtonID] + 1
+            voters.add(userUID)
+            updateDB(voters,votes,db,userUID,title)
+            val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
+            startActivity(votesWindow)
+        }
 
         backVSurveyBt.setOnClickListener {
             finish()
@@ -75,16 +92,26 @@ class ViewSurveyActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
-    private fun setOptionsText(options: ArrayList<String>){
+    private fun setOptions(options: ArrayList<String>){
 
        for(i in 0..(options.size -1)){
            val newElement = RadioButton(this)
            val container = findViewById<View>(R.id.rgContainer) as RadioGroup
            newElement.id = i
            newElement.text = options[i]
+           newElement.textSize = 20F
            container.addView(newElement)
        }
 
+    }
+
+    private fun updateDB( voters: ArrayList<String>, votes: ArrayList<Int>, db: FirebaseFirestore, userUID: String, title: String){
+        val data   = hashMapOf(
+            "votes" to votes,
+            "voters" to voters
+        )
+        db.collection(userUID).document(title)
+            .update(data as Map<String, Any>)
     }
 
 }

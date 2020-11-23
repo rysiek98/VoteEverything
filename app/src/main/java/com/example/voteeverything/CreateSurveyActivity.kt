@@ -75,6 +75,7 @@ class CreateSurveyActivity : AppCompatActivity() {
             val option2 = container.findViewById<EditText>(R.id.option2).text.toString()
             var options: ArrayList<String> = ArrayList()
             var votes: ArrayList<Int> = ArrayList()
+            var voters: ArrayList<String> = ArrayList()
             var listOfTitles: ArrayList<String> = ArrayList()
             var surveys:  ArrayList<String> = ArrayList()
 
@@ -100,7 +101,8 @@ class CreateSurveyActivity : AppCompatActivity() {
                     "creationData" to currentDate,
                     "title" to title,
                     "options" to options,
-                    "votes" to votes
+                    "votes" to votes,
+                    "voters" to voters
                 )
 
                 db.collection(user?.uid.toString()).document(title)
