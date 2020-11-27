@@ -21,7 +21,8 @@ import kotlin.collections.ArrayList
 
 class CreateSurveyActivity : AppCompatActivity() {
 
-    var controlHideUIFlag = false
+    private var controlHideUIFlag = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_survey)
@@ -39,9 +40,7 @@ class CreateSurveyActivity : AppCompatActivity() {
         }
 
         val user = Firebase.auth.currentUser
-        val users = Firebase.auth
         val db = Firebase.firestore
-        val docRefTitles = db.collection("dbInfo").document("listOfTitles")
         val docRefSurveys = db.collection("dbInfo").document("surveys")
 
 
@@ -87,7 +86,7 @@ class CreateSurveyActivity : AppCompatActivity() {
                 votes.add(0)
                 var option: EditText
                 for(i in 2..(container.size - 1)){
-                    option = container.get(i) as EditText
+                    option = container[i] as EditText
                     if(option.text.isNotEmpty()) {
                         options.add(option.text.toString())
                         votes.add(0)
@@ -108,32 +107,12 @@ class CreateSurveyActivity : AppCompatActivity() {
                 db.collection(user?.uid.toString()).document(title)
                     .set(survey)
                     .addOnSuccessListener { documentReference ->
-                        Toast.makeText(baseContext,"Success!",Toast.LENGTH_SHORT)
+                        Toast.makeText(baseContext,"Survey successfully add to database.",Toast.LENGTH_SHORT)
                             .show()
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(baseContext,"Failure!",Toast.LENGTH_SHORT)
                             .show()
-                    }
-
-                //Adding title to titleList
-                docRefTitles.get()
-                    .addOnSuccessListener { DocumentSnapshot->
-                        if(DocumentSnapshot.exists()){
-                            if(DocumentSnapshot.contains("titleList")) {
-                                listOfTitles =
-                                    DocumentSnapshot.get("titleList") as ArrayList<String>
-                            }
-                            listOfTitles.add(title)
-                            updatelistOfTitles(listOfTitles, db)
-                        }else{
-                            listOfTitles.add(title)
-                            updatelistOfTitles(listOfTitles, db)
-                        }
-                    }
-                    .addOnFailureListener {
-                        listOfTitles.add(title)
-                        updatelistOfTitles(listOfTitles, db)
                     }
 
                 //Adding uid-survey to uid-surveyList
@@ -172,14 +151,6 @@ class CreateSurveyActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) hideSystemUI()
-    }
-
-    private fun updatelistOfTitles(titleList: ArrayList<String>, db: FirebaseFirestore){
-        val data   = hashMapOf(
-            "titleList" to titleList
-        )
-        db.collection("dbInfo").document("listOfTitles")
-            .set(data)
     }
 
     private fun updateSurveys( surveys: ArrayList<String>, db: FirebaseFirestore){

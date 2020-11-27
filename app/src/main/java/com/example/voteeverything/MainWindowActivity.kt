@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main_window.*
 
 class MainWindowActivity : AppCompatActivity() {
 
-    var controlHideUIFlag = false
+    private var controlHideUIFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.size
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_view_surveys.*
 
 class ViewSurveysActivity : AppCompatActivity() {
 
-    var controlHideUIFlag = false
+    private var controlHideUIFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +36,11 @@ class ViewSurveysActivity : AppCompatActivity() {
             }
         }
 
-
+        val currentUserUID = Firebase.auth.currentUser?.uid.toString()
         val db = Firebase.firestore
         val docRefSurveys = db.collection("dbInfo").document("surveys")
         val container = findViewById<View>(R.id.surveysContainer) as LinearLayout
-        var userToSurvey: ArrayList<String> = ArrayList()
+        var userToSurvey: ArrayList<String>
 
 
 
@@ -47,7 +48,7 @@ class ViewSurveysActivity : AppCompatActivity() {
             .addOnSuccessListener { DocumentSnapshot->
                 if(DocumentSnapshot.exists()){
                     userToSurvey = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
-                    paintSurveys(userToSurvey,container, db)
+                    paintSurveys(userToSurvey, container, db, currentUserUID)
                 }else{
                     Toast.makeText(baseContext,"Data not found!",Toast.LENGTH_SHORT)
                         .show()
@@ -57,7 +58,6 @@ class ViewSurveysActivity : AppCompatActivity() {
                 Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
                     .show()
             }
-
 
         backVSurveysBt.setOnClickListener {
             finish()
@@ -84,11 +84,12 @@ class ViewSurveysActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
-    private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout, db: FirebaseFirestore){
+    private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout,
+                             db: FirebaseFirestore, currentUserUID: String){
         val surveyWindow = Intent(applicationContext,VoteOnSurveyActivity::class.java)
         val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
 
-        for(i in 1..(userToSurvey.size-1) step 2){
+        (1 until userToSurvey.size step 2).forEach { i ->
             val newElement = MaterialButton(this)
             newElement.text = userToSurvey.get(i)
             newElement.id = container.size+1
@@ -96,36 +97,32 @@ class ViewSurveysActivity : AppCompatActivity() {
             newElement.setTextColor(Color.WHITE)
             newElement.cornerRadius = 20
             container.addView(newElement)
-            val userUID = userToSurvey.get(i-1)
-            val title = userToSurvey.get(i)
+            val userUID = userToSurvey[i-1]
+            val title = userToSurvey[i]
 
             newElement.setOnClickListener {
                 db.collection(userUID).document(title).get()
                     .addOnSuccessListener { DocumentSnapshot->
                         if(DocumentSnapshot.exists()){
                             val tmp = DocumentSnapshot.get("voters") as ArrayList<String>
-                            if(tmp.stream()
-                                    .noneMatch { user -> user == userUID }){
+                            if(!tmp.contains(currentUserUID)){
                                 surveyWindow.putExtra("title",title)
                                 surveyWindow.putExtra("user", userUID)
+                                surveyWindow.putExtra("currentUser", currentUserUID)
                                 startActivity(surveyWindow)
                             }else{
                                 startActivity(votesWindow)
                             }
                         }else{
-
-                            surveyWindow.putExtra("title",title)
-                            surveyWindow.putExtra("user", userUID)
-                            startActivity(surveyWindow)
+                            Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                     .addOnFailureListener {
                         Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
                             .show()
                     }
-
             }
-
         }
     }
 

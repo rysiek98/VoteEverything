@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.activity_vote_on_survey.*
 
 class VoteOnSurveyActivity : AppCompatActivity() {
 
-    var controlHideUIFlag = false
-    val db = Firebase.firestore
+    private var controlHideUIFlag = false
+    private val db = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +35,11 @@ class VoteOnSurveyActivity : AppCompatActivity() {
             }
         }
 
-        val title = getIntent().getStringExtra("title")
-        val userUID = getIntent().getStringExtra("user")
+        val title = intent.getStringExtra("title")
+        val userUID = intent.getStringExtra("user")
+        val currentUserUID = intent.getStringExtra("currentUser")
         val docRefSurvey = db.collection(userUID).document(title)
-        var options: ArrayList<String> = ArrayList()
+        var options: ArrayList<String>
         var votes: ArrayList<Int> = ArrayList()
         var voters: ArrayList<String> = ArrayList()
 
@@ -60,10 +61,11 @@ class VoteOnSurveyActivity : AppCompatActivity() {
         voteVSurveyBt.setOnClickListener {
             val radioButtonID: Int = rgContainer.checkedRadioButtonId
             votes[radioButtonID] = votes[radioButtonID] + 1
-            voters.add(userUID)
+            voters.add(currentUserUID)
             updateDB(voters,votes,db,userUID,title)
             val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
             startActivity(votesWindow)
+            finish()
         }
 
         backVSurveyBt.setOnClickListener {
