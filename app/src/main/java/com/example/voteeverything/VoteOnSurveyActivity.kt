@@ -55,6 +55,10 @@ class VoteOnSurveyActivity : AppCompatActivity() {
                         .show()
                 }
             }
+            .addOnFailureListener {
+                Toast.makeText(baseContext, "Data not found!", Toast.LENGTH_SHORT)
+                    .show()
+            }
 
         surveyTitleVSurvey.text = title
 
@@ -64,6 +68,8 @@ class VoteOnSurveyActivity : AppCompatActivity() {
             voters.add(currentUserUID)
             updateDB(voters,votes,db,userUID,title)
             val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
+            votesWindow.putExtra("title",title)
+            votesWindow.putExtra("userUID", userUID)
             startActivity(votesWindow)
             finish()
         }
@@ -96,14 +102,14 @@ class VoteOnSurveyActivity : AppCompatActivity() {
 
     private fun setOptions(options: ArrayList<String>){
 
-       for(i in 0..(options.size -1)){
-           val newElement = RadioButton(this)
-           val container = findViewById<View>(R.id.rgContainer) as RadioGroup
-           newElement.id = i
-           newElement.text = options[i]
-           newElement.textSize = 20F
-           container.addView(newElement)
-       }
+        (0 until options.size).forEach { i ->
+            val newElement = RadioButton(this)
+            val container = findViewById<View>(R.id.rgContainer) as RadioGroup
+            newElement.id = i
+            newElement.text = options[i]
+            newElement.textSize = 20F
+            container.addView(newElement)
+        }
 
     }
 

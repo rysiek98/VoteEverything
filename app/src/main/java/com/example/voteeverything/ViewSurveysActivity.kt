@@ -91,7 +91,7 @@ class ViewSurveysActivity : AppCompatActivity() {
 
         (1 until userToSurvey.size step 2).forEach { i ->
             val newElement = MaterialButton(this)
-            newElement.text = userToSurvey.get(i)
+            newElement.text = userToSurvey[i]
             newElement.id = container.size+1
             newElement.setBackgroundColor(Color.BLACK)
             newElement.setTextColor(Color.WHITE)
@@ -111,6 +111,8 @@ class ViewSurveysActivity : AppCompatActivity() {
                                 surveyWindow.putExtra("currentUser", currentUserUID)
                                 startActivity(surveyWindow)
                             }else{
+                                votesWindow.putExtra("title",title)
+                                votesWindow.putExtra("userUID", userUID)
                                 startActivity(votesWindow)
                             }
                         }else{

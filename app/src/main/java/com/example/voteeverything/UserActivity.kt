@@ -1,22 +1,21 @@
 package com.example.voteeverything
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main_window.*
+import kotlinx.android.synthetic.main.activity_user.*
 
-
-class MainWindowActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity() {
 
     private var controlHideUIFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_window)
+        setContentView(R.layout.activity_user)
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             // Note that system bars will only be "visible" if none of the
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
@@ -30,28 +29,19 @@ class MainWindowActivity : AppCompatActivity() {
             }
         }
 
-        availableSurveysMWindowBt.setOnClickListener {
-            val availableSurveyWindow = Intent(applicationContext,ViewSurveysActivity::class.java)
-            startActivity(availableSurveyWindow)
-        }
+        val currentUser = Firebase.auth.currentUser
+        val userName = currentUser?.displayName
+        val userEmail = currentUser?.email
+        /*val db = Firebase.firestore
+        val docRefSurveys = db.collection("dbInfo").document("surveys")*/
 
-        createSurveyMWindowBt.setOnClickListener {
-            val createSurveyWindow = Intent(applicationContext,CreateSurveyActivity::class.java)
-            startActivity(createSurveyWindow)
-        }
-
-        logoutMWindowBt.setOnClickListener {
-            Firebase.auth.signOut()
+        helloUText.text = "Hello, $userName!"
+        nameUText.text = userName
+        emailUText.text = userEmail
+        backUBt.setOnClickListener {
             finish()
         }
-
-        userProfMWindowBt.setOnClickListener {
-            val userWindow = Intent(applicationContext,UserActivity::class.java)
-            startActivity(userWindow)
-        }
-
     }
-
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
