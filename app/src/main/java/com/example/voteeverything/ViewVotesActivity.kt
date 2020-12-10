@@ -11,6 +11,8 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_view_votes.*
@@ -38,9 +40,18 @@ class ViewVotesActivity : AppCompatActivity() {
 
         val title = intent.getStringExtra("title")
         val userUID = intent.getStringExtra("userUID")
+        val flag = intent.getBooleanExtra("flag", false)
         val docRefSurvey = db.collection(userUID).document(title)
+        val docRefUserSurvey = db.collection("dbInfo").document("surveys")
         var options: ArrayList<String>
         var votes: ArrayList<Float> = ArrayList()
+
+        if(flag){
+            deleteVVotesBt.visibility = View.VISIBLE
+            deleteVVotesBt.setOnClickListener {
+                deleteFormDB(title, userUID, docRefSurvey, docRefUserSurvey)
+            }
+        }
 
         docRefSurvey.get()
             .addOnSuccessListener { DocumentSnapshot->
@@ -58,9 +69,49 @@ class ViewVotesActivity : AppCompatActivity() {
                     .show()
             }
         titleVVotes.text = title
+
         backVVotesBt.setOnClickListener {
             finish()
         }
+    }
+
+
+    private fun deleteFormDB(
+        title: String?,
+        userUID: String?,
+        docRefSurvey: DocumentReference,
+        docRefUserSurvey: DocumentReference
+    ) {
+
+        var userToSurvey: ArrayList<String>
+        var tmp: ArrayList<String> = ArrayList()
+        docRefUserSurvey.get()
+            .addOnSuccessListener { DocumentSnapshot->
+                if(DocumentSnapshot.exists()){
+                    userToSurvey = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
+                    for (i in 0 until userToSurvey.size){
+                        if (userToSurvey[i] == userUID){
+                            if (userToSurvey[i+1] == title){
+                                userToSurvey[i+1] = "0"
+                                userToSurvey[i] = "0"
+                            }
+                        }
+                    }
+                    userToSurvey.removeIf { field -> field == "0" }
+                    updateSurveys(userToSurvey, db)
+                }else{
+                    Toast.makeText(baseContext,"Data not found!",Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(baseContext,"Data not found!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        docRefSurvey.delete()
+        Toast.makeText(baseContext,"Data deleted from database", Toast.LENGTH_SHORT)
+            .show()
+        Handler().postDelayed({ finish() }, 500)
     }
 
     private fun setBarChart(votes: ArrayList<Float>, xAxisLabels: ArrayList<String>) {
@@ -123,5 +174,13 @@ class ViewVotesActivity : AppCompatActivity() {
                 // Hide the nav bar and status bar
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
+    private fun updateSurveys( surveys: ArrayList<String>, db: FirebaseFirestore){
+        val data   = hashMapOf(
+            "userToSurvey" to surveys
+        )
+        db.collection("dbInfo").document("surveys")
+            .set(data)
     }
 }

@@ -32,6 +32,7 @@ class MainWindowActivity : AppCompatActivity() {
 
         availableSurveysMWindowBt.setOnClickListener {
             val availableSurveyWindow = Intent(applicationContext,ViewSurveysActivity::class.java)
+            availableSurveyWindow.putExtra("flag", false)
             startActivity(availableSurveyWindow)
         }
 

@@ -28,7 +28,7 @@
         app:layout_constraintVertical_bias="0.491" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textVSurveysText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/arbutus"

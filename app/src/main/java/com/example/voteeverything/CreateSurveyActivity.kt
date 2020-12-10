@@ -2,6 +2,7 @@ package com.example.voteeverything
 
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -43,7 +44,6 @@ class CreateSurveyActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val docRefSurveys = db.collection("dbInfo").document("surveys")
 
-
         backCSurveyBt.setOnClickListener {
             finish()
         }
@@ -75,7 +75,6 @@ class CreateSurveyActivity : AppCompatActivity() {
             var options: ArrayList<String> = ArrayList()
             var votes: ArrayList<Int> = ArrayList()
             var voters: ArrayList<String> = ArrayList()
-            var listOfTitles: ArrayList<String> = ArrayList()
             var surveys:  ArrayList<String> = ArrayList()
 
             //Adding survey
@@ -85,7 +84,7 @@ class CreateSurveyActivity : AppCompatActivity() {
                 options.add(option2)
                 votes.add(0)
                 var option: EditText
-                for(i in 2..(container.size - 1)){
+                for(i in 2 until container.size){
                     option = container[i] as EditText
                     if(option.text.isNotEmpty()) {
                         options.add(option.text.toString())
@@ -109,9 +108,10 @@ class CreateSurveyActivity : AppCompatActivity() {
                     .addOnSuccessListener { documentReference ->
                         Toast.makeText(baseContext,"Survey successfully add to database.",Toast.LENGTH_SHORT)
                             .show()
+                        Handler().postDelayed({ resetUI(container) }, 500)
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(baseContext,"Failure!",Toast.LENGTH_SHORT)
+                        Toast.makeText(baseContext,"Failure!",Toast.LENGTH_LONG)
                             .show()
                     }
 
@@ -145,6 +145,14 @@ class CreateSurveyActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun resetUI(container: LinearLayout) {
+        while (container.size > 2)
+            container.removeViewAt(container.size - 1)
+        surveyTitle.text.clear()
+        option1.text.clear()
+        option2.text.clear()
     }
 
 
