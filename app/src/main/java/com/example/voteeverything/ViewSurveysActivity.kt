@@ -88,7 +88,6 @@ class ViewSurveysActivity : AppCompatActivity() {
                 if(DocumentSnapshot.exists()){
                     userToSurvey = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
                     if(!flag) {
-                        //paintSurveys(userToSurvey, container, db, currentUserUID)
                         paintSurveys(userToSurvey, container, currentUserUID)
                     }else{
                         paintSurveys(userToSurvey, container, currentUserUID)
@@ -103,35 +102,6 @@ class ViewSurveysActivity : AppCompatActivity() {
                     .show()
             }
     }
-
-    /*private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout,
-                             db: FirebaseFirestore, currentUserUID: String){
-        val surveyWindow = Intent(applicationContext,VoteOnSurveyActivity::class.java)
-        val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
-
-        if(userToSurvey.size == 0){
-            val newElement = TextView(this)
-            newElement.text = "Ups... Database is empty!"
-            newElement.setBackgroundColor(Color.BLACK)
-            newElement.setTextColor(Color.WHITE)
-            container.addView(newElement)
-        }
-
-        (1 until userToSurvey.size step 2).forEach { i ->
-            val newElement = MaterialButton(this)
-            newElement.text = userToSurvey[i]
-            newElement.id = container.size+1
-            newElement.setBackgroundColor(Color.BLACK)
-            newElement.setTextColor(Color.WHITE)
-            newElement.cornerRadius = 20
-            container.addView(newElement)
-            val userUID = userToSurvey[i-1]
-            val title = userToSurvey[i]
-
-            activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
-
-        }
-    }*/
 
     private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout, currentUserUID: String){
         val surveyWindow = Intent(applicationContext,VoteOnSurveyActivity::class.java)
@@ -149,28 +119,12 @@ class ViewSurveysActivity : AppCompatActivity() {
             val userUID = userToSurvey[i - 1]
             val title = userToSurvey[i]
             if (userUID == currentUserUID && flag) {
-                /*val title = userToSurvey[i]
-                val newElement = MaterialButton(this)
-                newElement.text = userToSurvey[i]
-                newElement.id = container.size + 1
-                newElement.setBackgroundColor(Color.BLACK)
-                newElement.setTextColor(Color.WHITE)
-                newElement.cornerRadius = 20
-                container.addView(newElement)*/
-                val newElement = createNewElement(i, userToSurvey, container, title)
+                val newElement = createNewElement(container, title)
                 activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
                 controlFlag = true
             }
             else if (!flag){
-                /*val title = userToSurvey[i]
-                val newElement = MaterialButton(this)
-                newElement.text = userToSurvey[i]
-                newElement.id = container.size + 1
-                newElement.setBackgroundColor(Color.BLACK)
-                newElement.setTextColor(Color.WHITE)
-                newElement.cornerRadius = 20
-                container.addView(newElement)*/
-                val newElement = createNewElement(i, userToSurvey, container, title)
+                val newElement = createNewElement(container, title)
                 activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
             }
         }
@@ -211,10 +165,9 @@ class ViewSurveysActivity : AppCompatActivity() {
         }
     }
 
-    private fun createNewElement(i: Int, userToSurvey: ArrayList<String>, container: LinearLayout, title: String ): MaterialButton{
-
+    private fun createNewElement(container: LinearLayout, title: String ): MaterialButton{
         val newElement = MaterialButton(this)
-        newElement.text = userToSurvey[i]
+        newElement.text = title
         newElement.id = container.size + 1
         newElement.setBackgroundColor(Color.BLACK)
         newElement.setTextColor(Color.WHITE)
