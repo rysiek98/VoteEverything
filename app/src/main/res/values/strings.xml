@@ -24,5 +24,6 @@
     <string name="addCompany">Add Company, shop or restaurant</string>
     <string name="nameofCompany">Name of company, shop or restaurant</string>
     <string name="description">Short description...</string>
+    <string name="rateIT">Rate it!</string>
 
 </resources>

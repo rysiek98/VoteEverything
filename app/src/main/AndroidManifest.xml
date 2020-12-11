@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddCompanyActivity"></activity>
+        <activity android:name=".RateCompaniesActivity"></activity>
+        <activity android:name=".ViewCompaniesActivity" />
+        <activity android:name=".AddCompanyActivity" />
         <activity android:name=".UserActivity" />
         <activity android:name=".ViewVotesActivity" />
         <activity android:name=".VoteOnSurveyActivity" />

@@ -47,7 +47,9 @@ class AddCompanyActivity : AppCompatActivity() {
             val title =  companyNameACompany.text.toString()
             val description = descriptionACompany.text.toString()
             var companies: ArrayList<String> = ArrayList()
-
+            var votes: ArrayList<Int> = ArrayList()
+            votes.addAll(listOf(0,0))
+            var voters: ArrayList<String> = ArrayList()
 
             //Adding company
             if (title.isNotEmpty() && description.isNotEmpty()) {
@@ -59,13 +61,15 @@ class AddCompanyActivity : AppCompatActivity() {
                     "userName" to user?.displayName,
                     "creationData" to currentDate,
                     "title" to title,
-                    "description" to description
+                    "description" to description,
+                    "votes" to votes,
+                    "voters" to voters
                 )
 
-                db.collection("companies").document(user?.uid.toString())
+                db.collection(user?.uid.toString()).document(title)
                     .set(company)
                     .addOnSuccessListener { documentReference ->
-                        Toast.makeText(baseContext,"Object successfully add to database.", Toast.LENGTH_SHORT)
+                        Toast.makeText(baseContext,"Successfully add to database.", Toast.LENGTH_SHORT)
                             .show()
                         Handler().postDelayed({ resetUI() }, 500)
                     }

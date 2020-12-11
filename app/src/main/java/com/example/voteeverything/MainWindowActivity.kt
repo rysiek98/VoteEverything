@@ -30,6 +30,11 @@ class MainWindowActivity : AppCompatActivity() {
             }
         }
 
+        availableCompanyMWindowBt.setOnClickListener {
+            val rateCompanyWindow = Intent(applicationContext,ViewCompaniesActivity::class.java)
+            startActivity(rateCompanyWindow)
+        }
+
         addCompanyMWindowBt.setOnClickListener {
             val addCompanyWindow = Intent(applicationContext,AddCompanyActivity::class.java)
             startActivity(addCompanyWindow)

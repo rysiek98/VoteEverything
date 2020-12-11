@@ -55,7 +55,7 @@ class ViewSurveysActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val docRefSurveys = db.collection("dbInfo").document("surveys")
-        paintSurveys(docRefSurveys, currentUserUID, flag)
+        paintSurveys(docRefSurveys, currentUserUID)
 
     }
 
@@ -79,7 +79,7 @@ class ViewSurveysActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
-    private fun paintSurveys(docRefSurveys: DocumentReference, currentUserUID: String, flag: Boolean) {
+    private fun paintSurveys(docRefSurveys: DocumentReference, currentUserUID: String) {
         val container = findViewById<View>(R.id.surveysContainer) as LinearLayout
         container.removeAllViews()
         var userToSurvey: ArrayList<String>
@@ -87,11 +87,7 @@ class ViewSurveysActivity : AppCompatActivity() {
             .addOnSuccessListener { DocumentSnapshot->
                 if(DocumentSnapshot.exists()){
                     userToSurvey = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
-                    if(!flag) {
                         paintSurveys(userToSurvey, container, currentUserUID)
-                    }else{
-                        paintSurveys(userToSurvey, container, currentUserUID)
-                    }
                 }else{
                     Toast.makeText(baseContext,"Data not found!",Toast.LENGTH_SHORT)
                         .show()
