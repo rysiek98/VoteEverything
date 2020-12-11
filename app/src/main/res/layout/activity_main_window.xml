@@ -95,4 +95,42 @@
         app:layout_constraintStart_toEndOf="@+id/availableSurveysMWindowBt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.475" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/availableCompanyMWindowBt"
+        style="@style/MainWindowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/main_window_buttons"
+        app:backgroundTint="@null"
+        app:elevation="20dp"
+        app:icon="@drawable/ic_baseline_grade"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.259"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.695" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addCompanyMWindowBt"
+        style="@style/MainWindowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/main_window_buttons"
+        app:backgroundTint="@null"
+        app:elevation="20dp"
+        app:icon="@drawable/ic_baseline_add_business"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.695" />
 </androidx.constraintlayout.widget.ConstraintLayout>

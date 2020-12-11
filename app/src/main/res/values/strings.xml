@@ -21,5 +21,8 @@
     <string name="deleteOption">option</string>
     <string name="availableSurveys">Available Surveys</string>
     <string name="vote">Vote</string>
+    <string name="addCompany">Add Company, shop or restaurant</string>
+    <string name="nameofCompany">Name of company, shop or restaurant</string>
+    <string name="description">Short description...</string>
 
 </resources>
