@@ -32,9 +32,9 @@ class ViewSurveysActivity : AppCompatActivity() {
             // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
             if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
                 if (!controlHideUIFlag) {
-                    Handler().postDelayed({ hideSystemUI() }, 2000)
+                    Handler().postDelayed({ hideSystemUI(window) }, 2000)
                 } else {
-                    hideSystemUI()
+                    hideSystemUI(window)
                     controlHideUIFlag = false
                 }
             }
@@ -61,22 +61,7 @@ class ViewSurveysActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) hideSystemUI()
-    }
-
-    private fun hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
-                // Set the content to appear under the system bars so that the
-                // content doesn't resize when the system bars hide and show.
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                // Hide the nav bar and status bar
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        if (hasFocus) hideSystemUI(window)
     }
 
     private fun paintSurveys(docRefSurveys: DocumentReference, currentUserUID: String) {
@@ -107,7 +92,7 @@ class ViewSurveysActivity : AppCompatActivity() {
 
 
         if(userToSurvey.size == 0){
-            createText(container, text)
+            createText(container, text, this)
             return
         }
 
@@ -115,19 +100,19 @@ class ViewSurveysActivity : AppCompatActivity() {
             val userUID = userToSurvey[i - 1]
             val title = userToSurvey[i]
             if (userUID == currentUserUID && flag) {
-                val newElement = createNewElement(container, title)
+                val newElement = createNewElement(container, title, this)
                 activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
                 controlFlag = true
             }
             else if (!flag){
-                val newElement = createNewElement(container, title)
+                val newElement = createNewElement(container, title, this)
                 activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
             }
         }
 
         if(!controlFlag && flag){
             val text = "Ups... You haven't created any surveys yet! Make your first survey!"
-            createText(container, text)
+            createText(container, text, this)
             return
         }
     }
@@ -159,25 +144,6 @@ class ViewSurveysActivity : AppCompatActivity() {
                         .show()
                 }
         }
-    }
-
-    private fun createNewElement(container: LinearLayout, title: String ): MaterialButton{
-        val newElement = MaterialButton(this)
-        newElement.text = title
-        newElement.id = container.size + 1
-        newElement.setBackgroundColor(Color.BLACK)
-        newElement.setTextColor(Color.WHITE)
-        newElement.cornerRadius = 20
-        container.addView(newElement)
-        return newElement
-    }
-
-    private fun createText(container: LinearLayout, text: String){
-        val newElement = TextView(this)
-        newElement.text = text
-        newElement.textSize = 30f
-        newElement.setTextColor(Color.WHITE)
-        container.addView(newElement)
     }
 
 }

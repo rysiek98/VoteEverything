@@ -51,31 +51,11 @@
         app:layout_constraintTop_toTopOf="parent"
         android:fillViewport="true">
 
-        <TableLayout
+        <LinearLayout
             android:id="@+id/companyContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:id="@+id/Row1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:id="@+id/Row2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:id="@+id/Row3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:id="@+id/Row4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
