@@ -1,4 +1,5 @@
 <resources>
+    <string name="author">Created by Michał Ryszka</string>
     <string name="app_name">VoteEverything</string>
     <string name="app_name_with_space">Vote Everything</string>
     <string name="singInButton">Sing in</string>
@@ -25,5 +26,8 @@
     <string name="nameofCompany">Name of company, shop or restaurant</string>
     <string name="description">Short description...</string>
     <string name="rateIT">Rate it!</string>
+    <string name="addComment">Add your comment</string>
+    <string name="add">Add</string>
+    <string name="yourComment">Enter your comment...</string>
 
 </resources>

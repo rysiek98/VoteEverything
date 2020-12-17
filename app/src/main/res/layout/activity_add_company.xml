@@ -61,20 +61,22 @@
 
     <EditText
         android:id="@+id/descriptionACompany"
-        android:layout_width="363dp"
-        android:layout_height="173dp"
-        android:ems="10"
+        android:layout_width="357dp"
+        android:layout_height="129dp"
+        android:background="@android:color/transparent"
+        android:ems="6"
         android:fontFamily="@font/allerta"
         android:gravity="start|top"
         android:hint="@string/description"
         android:inputType="textMultiLine"
+        android:maxLength="130"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintHorizontal_bias="0.574"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.401" />
+        app:layout_constraintVertical_bias="0.352" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/createACompanyBt"

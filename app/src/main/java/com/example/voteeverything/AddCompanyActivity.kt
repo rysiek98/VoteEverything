@@ -50,6 +50,7 @@ class AddCompanyActivity : AppCompatActivity() {
             var votes: ArrayList<Int> = ArrayList()
             votes.addAll(listOf(0,0))
             var voters: ArrayList<String> = ArrayList()
+            var comments: ArrayList<String> = ArrayList()
 
             //Adding company
             if (title.isNotEmpty() && description.isNotEmpty()) {
@@ -63,7 +64,8 @@ class AddCompanyActivity : AppCompatActivity() {
                     "title" to title,
                     "description" to description,
                     "votes" to votes,
-                    "voters" to voters
+                    "voters" to voters,
+                    "comments" to comments
                 )
 
                 db.collection(user?.uid.toString()).document(title)
@@ -90,15 +92,15 @@ class AddCompanyActivity : AppCompatActivity() {
                             companies.add(title)
                             updateCompany(companies, db)
                         }else{
+                            //If field companyToUser does't exist fun setCompany create it and add data
                             companies.add(user)
                             companies.add(title)
-                            updateCompany(companies, db)
+                            setCompany(companies, db)
                         }
                     }
                     .addOnFailureListener {
-                        companies.add(user)
-                        companies.add(title)
-                        updateCompany(companies, db)
+                        Toast.makeText(baseContext,"Failed to connect to the database", Toast.LENGTH_SHORT)
+                            .show()
                     }
 
             }else{
@@ -116,6 +118,14 @@ class AddCompanyActivity : AppCompatActivity() {
         )
         db.collection("dbInfo").document("companies")
             .update(data as Map<String, Any>)
+    }
+
+    private fun setCompany(companies: java.util.ArrayList<String>, db: FirebaseFirestore) {
+        val data   = hashMapOf(
+            "companyToUser" to companies
+        )
+        db.collection("dbInfo").document("companies")
+            .set(data)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

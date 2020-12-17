@@ -51,9 +51,9 @@ class StartScreenActivity : AppCompatActivity(){
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialogView.loginSingInBt.setOnClickListener {
                     val password = dialogView.passwordFromUser.text.toString()
-                    val emial = dialogView.emailFromUser.text.toString()
-                    if (password.isNotEmpty() && emial.isNotEmpty()) {
-                    auth.signInWithEmailAndPassword(emial,password)
+                    val email = dialogView.emailFromUser.text.toString()
+                    if (password.isNotEmpty() && email.isNotEmpty()) {
+                    auth.signInWithEmailAndPassword(email,password)
                         .addOnCompleteListener(this) { task ->
                             if (!task.isSuccessful) {
                                 Toast.makeText(baseContext,
@@ -84,9 +84,9 @@ class StartScreenActivity : AppCompatActivity(){
             mAlert.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogView.createSingUpBt.setOnClickListener {
                 val password = dialogView.passwordFromUserSingUp.text.toString()
-                val emial = dialogView.emailFromUserSingUp.text.toString()
-                if (isPasswordValid(password) && isEmailValid(emial)){
-                    auth.createUserWithEmailAndPassword(emial, password)
+                val email = dialogView.emailFromUserSingUp.text.toString()
+                if (isPasswordValid(password) && isEmailValid(email)){
+                    auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this) { task ->
                             if (task.isSuccessful) {
                                 val user = auth.currentUser
@@ -147,7 +147,7 @@ class StartScreenActivity : AppCompatActivity(){
     }
 
     //Simply password validation fun
-    fun isPasswordValid(password: String): Boolean{
+    private fun isPasswordValid(password: String): Boolean{
         return if(password.isNotEmpty()) {
             password.length > 5
         }else{
@@ -155,11 +155,11 @@ class StartScreenActivity : AppCompatActivity(){
         }
     }
     //E-mail validation fun
-    fun isEmailValid(email: String): Boolean {
+    private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    fun openMainWindow(){
+    private fun openMainWindow(){
         val mainWindow = Intent(applicationContext,MainWindowActivity::class.java)
         startActivity(mainWindow)
     }

@@ -84,7 +84,6 @@ class ViewVotesActivity : AppCompatActivity() {
     ) {
 
         var userToSurvey: ArrayList<String>
-        var tmp: ArrayList<String> = ArrayList()
         docRefUserSurvey.get()
             .addOnSuccessListener { DocumentSnapshot->
                 if(DocumentSnapshot.exists()){

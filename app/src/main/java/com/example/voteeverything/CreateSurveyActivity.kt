@@ -2,7 +2,6 @@ package com.example.voteeverything
 
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -129,13 +128,12 @@ class CreateSurveyActivity : AppCompatActivity() {
                         }else{
                             surveys.add(user)
                             surveys.add(title)
-                            updateSurveys(surveys,db)
+                            setSurveys(surveys,db)
                         }
                     }
                     .addOnFailureListener {
-                        surveys.add(user)
-                        surveys.add(title)
-                        updateSurveys(surveys, db)
+                        Toast.makeText(baseContext,"Failed to connect to the database", Toast.LENGTH_SHORT)
+                            .show()
                     }
 
             }else{
@@ -167,6 +165,14 @@ class CreateSurveyActivity : AppCompatActivity() {
         )
         db.collection("dbInfo").document("surveys")
             .update(data as Map<String, Any>)
+    }
+
+    private fun setSurveys( surveys: ArrayList<String>, db: FirebaseFirestore){
+        val data   = hashMapOf(
+            "userToSurvey" to surveys
+        )
+        db.collection("dbInfo").document("surveys")
+            .set(data)
     }
 
     private fun hideSystemUI() {
