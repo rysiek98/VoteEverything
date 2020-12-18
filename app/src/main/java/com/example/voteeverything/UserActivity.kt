@@ -50,6 +50,7 @@ class UserActivity : AppCompatActivity() {
         mySurveysUBt.setOnClickListener {
             val availableSurveyWindow = Intent(applicationContext,ViewSurveysActivity::class.java)
             availableSurveyWindow.putExtra("flag", true)
+            availableSurveyWindow.putExtra("userIsAnonymous", false)
             startActivity(availableSurveyWindow)
         }
     }

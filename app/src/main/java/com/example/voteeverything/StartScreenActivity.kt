@@ -60,7 +60,7 @@ class StartScreenActivity : AppCompatActivity(){
                                     "Authentication failed. Wrong address e-mail or password.",
                                     Toast.LENGTH_SHORT).show()
                             }else{
-                                openMainWindow()
+                                openMainWindow(false)
                                 mAlert.dismiss()
                             }
                         }
@@ -99,7 +99,7 @@ class StartScreenActivity : AppCompatActivity(){
                                             Toast.makeText(baseContext, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show()
                                         }else{
-                                            openMainWindow()
+                                            openMainWindow(false)
                                             mAlert.dismiss()
                                         }
                                     }
@@ -117,7 +117,7 @@ class StartScreenActivity : AppCompatActivity(){
         }
 
         guestSScreenBt.setOnClickListener {
-            openMainWindow()
+            openMainWindow(true)
         }
 
         exitSScreenBt.setOnClickListener {
@@ -144,9 +144,16 @@ class StartScreenActivity : AppCompatActivity(){
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun openMainWindow(){
-        val mainWindow = Intent(applicationContext,MainWindowActivity::class.java)
-        startActivity(mainWindow)
+    private fun openMainWindow(flag: Boolean){
+        if(flag) {
+            val mainWindow = Intent(applicationContext, MainWindowActivity::class.java)
+            mainWindow.putExtra("userIsAnonymous", true)
+            startActivity(mainWindow)
+        }else{
+            val mainWindow = Intent(applicationContext, MainWindowActivity::class.java)
+            mainWindow.putExtra("userIsAnonymous", false)
+            startActivity(mainWindow)
+        }
     }
 
 }

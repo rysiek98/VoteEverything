@@ -39,7 +39,7 @@ fun createNewElement(container: LinearLayout, title: String, context: Context): 
 fun createText(container: LinearLayout, text: String, context: Context) {
     val newElement = TextView(context)
     newElement.text = text
-    newElement.textSize = 30f
+    newElement.textSize = 25f
     newElement.setTextColor(Color.WHITE)
     container.addView(newElement)
 }

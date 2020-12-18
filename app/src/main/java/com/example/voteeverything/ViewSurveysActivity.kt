@@ -1,15 +1,12 @@
 package com.example.voteeverything
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.size
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
@@ -23,6 +20,7 @@ class ViewSurveysActivity : AppCompatActivity() {
     private val currentUserUID = Firebase.auth.currentUser?.uid.toString()
     private val db = Firebase.firestore
     private var flag = false
+    private var userIsAnonymous = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +38,7 @@ class ViewSurveysActivity : AppCompatActivity() {
             }
         }
         flag = intent.getBooleanExtra("flag", false)
+        userIsAnonymous = intent.getBooleanExtra("userIsAnonymous", true)
         if(!flag){
             textVSurveysText.text = "Available Surveys"
         }else{
@@ -85,8 +84,8 @@ class ViewSurveysActivity : AppCompatActivity() {
     }
 
     private fun paintSurveys(userToSurvey: ArrayList<String>, container:LinearLayout, currentUserUID: String){
-        val surveyWindow = Intent(applicationContext,VoteOnSurveyActivity::class.java)
-        val votesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
+        val voteOnSurveyWindow = Intent(applicationContext,VoteOnSurveyActivity::class.java)
+        val viewVotesWindow = Intent(applicationContext,ViewVotesActivity::class.java)
         var controlFlag = false
         val text = "Ups... Nobody haven't created any surveys yet. Let's make first survey!"
 
@@ -101,12 +100,12 @@ class ViewSurveysActivity : AppCompatActivity() {
             val title = userToSurvey[i]
             if (userUID == currentUserUID && flag) {
                 val newElement = createNewElement(container, title, this)
-                activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
+                activeButton(newElement, userUID, title, voteOnSurveyWindow, viewVotesWindow, flag)
                 controlFlag = true
             }
             else if (!flag){
                 val newElement = createNewElement(container, title, this)
-                activeButton(newElement, userUID, title, surveyWindow, votesWindow, flag)
+                activeButton(newElement, userUID, title, voteOnSurveyWindow, viewVotesWindow, flag)
             }
         }
 
@@ -117,22 +116,22 @@ class ViewSurveysActivity : AppCompatActivity() {
         }
     }
 
-    private fun activeButton(newElement: MaterialButton, userUID: String, title: String, surveyWindow: Intent, votesWindow: Intent, flag: Boolean){
+    private fun activeButton(newElement: MaterialButton, userUID: String, title: String, voteOnSurveyWindow: Intent, viewVotesWindow: Intent, flag: Boolean){
         newElement.setOnClickListener {
-            db.collection(userUID).document(title).get()
+            db.collection(userUID).document("S_"+title).get()
                 .addOnSuccessListener { DocumentSnapshot ->
                     if (DocumentSnapshot.exists()) {
                         val tmp = DocumentSnapshot.get("voters") as ArrayList<String>
-                        if (!tmp.contains(currentUserUID)) {
-                            surveyWindow.putExtra("title", title)
-                            surveyWindow.putExtra("user", userUID)
-                            surveyWindow.putExtra("currentUser", currentUserUID)
-                            startActivity(surveyWindow)
+                        if (!tmp.contains(currentUserUID) && !userIsAnonymous) {
+                            voteOnSurveyWindow.putExtra("title", title)
+                            voteOnSurveyWindow.putExtra("user", userUID)
+                            voteOnSurveyWindow.putExtra("currentUser", currentUserUID)
+                            startActivity(voteOnSurveyWindow)
                         } else {
-                            votesWindow.putExtra("title", title)
-                            votesWindow.putExtra("userUID", userUID)
-                            votesWindow.putExtra("flag", flag)
-                            startActivity(votesWindow)
+                            viewVotesWindow.putExtra("title", title)
+                            viewVotesWindow.putExtra("userUID", userUID)
+                            viewVotesWindow.putExtra("flag", flag)
+                            startActivity(viewVotesWindow)
                         }
                     } else {
                         Toast.makeText(baseContext, "Data not found!", Toast.LENGTH_SHORT)

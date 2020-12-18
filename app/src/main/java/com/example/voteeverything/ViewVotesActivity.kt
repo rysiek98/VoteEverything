@@ -41,10 +41,10 @@ class ViewVotesActivity : AppCompatActivity() {
         val title = intent.getStringExtra("title")
         val userUID = intent.getStringExtra("userUID")
         val flag = intent.getBooleanExtra("flag", false)
-        val docRefSurvey = db.collection(userUID).document(title)
+        val docRefSurvey = db.collection(userUID).document("S_"+title)
         val docRefUserSurvey = db.collection("dbInfo").document("surveys")
         var options: ArrayList<String>
-        var votes: ArrayList<Float> = ArrayList()
+        val votes: ArrayList<Float> = ArrayList()
 
         if(flag){
             deleteVVotesBt.visibility = View.VISIBLE
@@ -119,7 +119,7 @@ class ViewVotesActivity : AppCompatActivity() {
         var r = 50
         var g = 100
         var b = 80
-        var it: Float = 0f
+        var it = 0f
         var votesSum = 0f
         votes.forEach { vote -> votesSum += vote }
         votes.forEach { vote ->

@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import androidx.core.view.size
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -71,78 +73,37 @@ class CreateSurveyActivity : AppCompatActivity() {
             val container = findViewById<View>(R.id.optionsContainer) as LinearLayout
             val option1 = container.findViewById<EditText>(R.id.option1).text.toString()
             val option2 = container.findViewById<EditText>(R.id.option2).text.toString()
-            var options: ArrayList<String> = ArrayList()
-            var votes: ArrayList<Int> = ArrayList()
-            var voters: ArrayList<String> = ArrayList()
-            var surveys:  ArrayList<String> = ArrayList()
+            val options: ArrayList<String> = ArrayList()
+            val votes: ArrayList<Int> = ArrayList()
+            val voters: ArrayList<String> = ArrayList()
 
-            //Adding survey
-            if (title.isNotEmpty() && option1.isNotEmpty() && option2.isNotEmpty()) {
-                options.add(option1)
-                votes.add(0)
-                options.add(option2)
-                votes.add(0)
-                var option: EditText
-                for(i in 2 until container.size){
-                    option = container[i] as EditText
-                    if(option.text.isNotEmpty()) {
-                        options.add(option.text.toString())
-                        votes.add(0)
+            db.collection(user?.uid.toString()).document("S_" + title).get()
+                .addOnSuccessListener { DocumentSnapshot ->
+                    if (DocumentSnapshot.exists()) {
+                        Toast.makeText(
+                            baseContext,
+                            "You already have survey with that title. You must first delete it to add new with the same title.",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    } else {
+
+                        //Adding survey
+                        if (title.isNotEmpty() && option1.isNotEmpty() && option2.isNotEmpty()) {
+                            addSurvey(title, option1, option2, options, votes, container, user, voters, db)
+                            addSurveyToUser(user, docRefSurveys, title, db)
+                        } else {
+                            Toast.makeText(
+                                baseContext,
+                                "Please enter all necessary data.",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+
                     }
                 }
-                val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
-                val currentDate = sdf.format(Date())
-                val survey = hashMapOf(
-                    "userID" to user?.uid,
-                    "userName" to user?.displayName,
-                    "creationData" to currentDate,
-                    "title" to title,
-                    "options" to options,
-                    "votes" to votes,
-                    "voters" to voters
-                )
-
-                db.collection(user?.uid.toString()).document(title)
-                    .set(survey)
-                    .addOnSuccessListener { documentReference ->
-                        Toast.makeText(baseContext,"Survey successfully add to database.",Toast.LENGTH_SHORT)
-                            .show()
-                        Handler().postDelayed({ resetUI(container) }, 500)
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(baseContext,"Failure!",Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                //Adding uid-survey to uid-surveyList
-                val user = user?.uid.toString()
-                docRefSurveys.get()
-                    .addOnSuccessListener { DocumentSnapshot->
-                        if(DocumentSnapshot.exists()){
-                            if(DocumentSnapshot.contains("userToSurvey")) {
-                                surveys = DocumentSnapshot.get("userToSurvey") as ArrayList<String>
-                            }
-                            surveys.add(user)
-                            surveys.add(title)
-                            updateSurveys(surveys, db)
-                        }else{
-                            surveys.add(user)
-                            surveys.add(title)
-                            setSurveys(surveys,db)
-                        }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(baseContext,"Failed to connect to the database", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-            }else{
-                Toast.makeText(baseContext,"Please enter all necessary data.",Toast.LENGTH_SHORT)
-                    .show()
-            }
-
         }
-
     }
 
     private fun resetUI(container: LinearLayout) {
@@ -173,6 +134,86 @@ class CreateSurveyActivity : AppCompatActivity() {
         )
         db.collection("dbInfo").document("surveys")
             .set(data)
+    }
+
+    private fun addSurvey(
+        title: String, option1: String, option2: String,
+        options: ArrayList<String>, votes: ArrayList<Int>,
+        container: LinearLayout, user: FirebaseUser?,
+        voters: ArrayList<String>, db: FirebaseFirestore
+    ) {
+            options.add(option1)
+            votes.add(0)
+            options.add(option2)
+            votes.add(0)
+            var option: EditText
+            for (i in 2 until container.size) {
+                option = container[i] as EditText
+                if (option.text.isNotEmpty()) {
+                    options.add(option.text.toString())
+                    votes.add(0)
+                }
+            }
+            val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            val survey = hashMapOf(
+                "userID" to user?.uid,
+                "userName" to user?.displayName,
+                "creationData" to currentDate,
+                "title" to title,
+                "options" to options,
+                "votes" to votes,
+                "voters" to voters
+            )
+
+            db.collection(user?.uid.toString()).document("S_" + title)
+                .set(survey)
+                .addOnSuccessListener { documentReference ->
+                    Toast.makeText(
+                        baseContext,
+                        "Survey successfully add to database.",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    Handler().postDelayed({ resetUI(container) }, 500)
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(baseContext, "Failure!", Toast.LENGTH_LONG)
+                        .show()
+                }
+    }
+
+    private fun addSurveyToUser(
+        user: FirebaseUser?, docRefSurveys: DocumentReference,
+        title: String, db: FirebaseFirestore
+    ){
+        //Adding uid-survey to uid-surveyList
+        val user = user?.uid.toString()
+        var surveys: ArrayList<String> = ArrayList()
+        docRefSurveys.get()
+            .addOnSuccessListener { DocumentSnapshot ->
+                if (DocumentSnapshot.exists()) {
+                    if (DocumentSnapshot.contains("userToSurvey")) {
+                        surveys =
+                            DocumentSnapshot.get("userToSurvey") as ArrayList<String>
+                    }
+                    surveys.add(user)
+                    surveys.add(title)
+                    updateSurveys(surveys, db)
+                } else {
+                    surveys.add(user)
+                    surveys.add(title)
+                    setSurveys(surveys, db)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    baseContext,
+                    "Failed to connect to the database",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
     }
 
 }

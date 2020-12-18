@@ -38,10 +38,10 @@ class VoteOnSurveyActivity : AppCompatActivity() {
         val title = intent.getStringExtra("title")
         val userUID = intent.getStringExtra("user")
         val currentUserUID = intent.getStringExtra("currentUser")
-        val docRefSurvey = db.collection(userUID).document(title)
+        val docRefSurvey = db.collection(userUID).document("S_"+title)
         var options: ArrayList<String>
-        var votes: ArrayList<Int> = ArrayList()
-        var voters: ArrayList<String> = ArrayList()
+        val votes: ArrayList<Int> = ArrayList()
+        val voters: ArrayList<String> = ArrayList()
 
         docRefSurvey.get()
             .addOnSuccessListener { DocumentSnapshot->
@@ -103,7 +103,7 @@ class VoteOnSurveyActivity : AppCompatActivity() {
             "votes" to votes,
             "voters" to voters
         )
-        db.collection(userUID).document(title)
+        db.collection(userUID).document("S_"+title)
             .update(data as Map<String, Any>)
     }
 

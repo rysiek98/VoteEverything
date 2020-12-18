@@ -21,6 +21,8 @@ class ViewCompaniesActivity : AppCompatActivity() {
     private var controlHideUIFlag = false
     private val db = Firebase.firestore
     private val currentUserUID = Firebase.auth.currentUser?.uid.toString()
+    private var userIsAnonymous = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_companies)
@@ -41,6 +43,7 @@ class ViewCompaniesActivity : AppCompatActivity() {
             finish()
         }
 
+        userIsAnonymous = intent.getBooleanExtra("userIsAnonymous", true)
     }
 
     override fun onResume() {
@@ -99,12 +102,13 @@ class ViewCompaniesActivity : AppCompatActivity() {
         rateCompanyWindow: Intent,
     ) {
         newElement.setOnClickListener {
-            db.collection(userUID).document(title).get()
+            db.collection(userUID).document("C_"+title).get()
                 .addOnSuccessListener { DocumentSnapshot ->
                     if (DocumentSnapshot.exists()) {
                         rateCompanyWindow.putExtra("title", title)
                         rateCompanyWindow.putExtra("user", userUID)
                         rateCompanyWindow.putExtra("currentUser", currentUserUID)
+                        rateCompanyWindow.putExtra("userIsAnonymous", userIsAnonymous)
                         startActivity(rateCompanyWindow)
                     } else {
                         Toast.makeText(baseContext, "Data not found!", Toast.LENGTH_SHORT)
