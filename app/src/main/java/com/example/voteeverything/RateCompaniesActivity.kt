@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.core.view.size
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -100,8 +101,7 @@ class RateCompaniesActivity : AppCompatActivity() {
 
                         if (!updateComments(comments, db, userUID, title)) {
                             if(comments.size == 1){
-                                container.removeAllViews()
-                                descriptionRCompanies.text = description
+                                container.removeView(container[2])
                                 paint(comments, container, votes, ratingBar)
                             }else {
                                 paintComments(comments, container)
