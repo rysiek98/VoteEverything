@@ -1,5 +1,6 @@
 # VoteEverything
-Mobile application (Android) with polls for any subject you want.
+Mobile application (Android) created at university subject WPAM. Vote Everything app provides users possibility to create surveys for any subject they want. 
+In addition to surveys users could also add company, restaurant, services or product with short description and other users can rate it and write comments about 
 
 
 Some screenshots:
