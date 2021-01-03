@@ -110,7 +110,7 @@ class ViewSurveysActivity : AppCompatActivity() {
         }
 
         if(!controlFlag && flag){
-            val text = "Ups... You haven't created any surveys yet! Make your first survey!"
+            val text = "Ups... You haven't created any survey yet! Make your first survey!"
             createText(container, text, this)
             return
         }

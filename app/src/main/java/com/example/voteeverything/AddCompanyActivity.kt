@@ -59,7 +59,7 @@ class AddCompanyActivity : AppCompatActivity() {
                     if (DocumentSnapshot.exists()) {
                         Toast.makeText(
                             baseContext,
-                            "You already have company with that name!",
+                            "You already add item with that name!",
                             Toast.LENGTH_SHORT
                         )
                             .show()

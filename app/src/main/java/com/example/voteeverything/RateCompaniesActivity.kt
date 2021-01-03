@@ -131,7 +131,7 @@ class RateCompaniesActivity : AppCompatActivity() {
         voteRCompaniesBt.setOnClickListener {
             when {
                 voters.contains(currentUserUID) -> {
-                    Toast.makeText(baseContext, "You've already judged it.", Toast.LENGTH_SHORT)
+                    Toast.makeText(baseContext, "You've already rate it.", Toast.LENGTH_SHORT)
                         .show()
                 }
                 ratingBar.rating == 0f -> {
@@ -139,7 +139,7 @@ class RateCompaniesActivity : AppCompatActivity() {
                         .show()
                 }
                 userIsAnonymous ->{
-                    Toast.makeText(baseContext, "Only registered users could give rates.", Toast.LENGTH_SHORT)
+                    Toast.makeText(baseContext, "Only registered users can rate items.", Toast.LENGTH_SHORT)
                         .show()
                 }
                 else -> {

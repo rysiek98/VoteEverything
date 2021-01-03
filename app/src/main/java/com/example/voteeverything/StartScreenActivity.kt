@@ -107,7 +107,7 @@ class StartScreenActivity : AppCompatActivity(){
                         }
             }else{
                     Toast.makeText(
-                        baseContext, "Wrong password length or wrong e-mial address. Your password should have 6 characters or more.",
+                        baseContext, "Wrong password length or wrong e-mail address. Your password should have 6 characters or more.",
                         Toast.LENGTH_SHORT).show()
                 }
             }

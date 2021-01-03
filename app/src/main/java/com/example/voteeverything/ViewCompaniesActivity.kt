@@ -78,7 +78,7 @@ class ViewCompaniesActivity : AppCompatActivity() {
         companyToUser: java.util.ArrayList<String>,
         container: LinearLayout) {
         val rateCompanyWindow = Intent(applicationContext,RateCompaniesActivity::class.java)
-        val text = "Ups... Nobody haven't created any surveys yet. Let's make first survey!"
+        val text = "Ups... Nobody haven't add anything yet. Let's add first item!"
 
 
         if(companyToUser.size == 0){
