@@ -5,16 +5,25 @@ Mobile application (Android) with polls for any subject you want.
 Some screenshots:
 
 ## Start Screen: <h3>
-![StartScreen](/Screenshots/startScreen.jpg)
+![StartScreen](/Screenshots/startScreen.JPG)
   
 ## Home: <h3>
-![Home](/Tic-Tac-Toe_screenshots/home.PNG)
+![Home](/Screenshots/mainMenu.JPG)
   
-## Game rules: <h3>
-![Game rules](/Tic-Tac-Toe_screenshots/info.PNG)
+## User Panel: <h3>
+![UserPanel](/Screenshots/userPannel.JPG)
   
-## Start game screen: <h3>
-![Start game screen](/Tic-Tac-Toe_screenshots/loadscreen.PNG)
+## Surveys: <h3>
+![Surveys](/Screenshots/surveys.JPG)
   
-## Game: <h3>
-![Game](/Tic-Tac-Toe_screenshots/game.PNG)
+## Votes: <h3>
+![Votes](/Screenshots/surveyVote.JPG)
+
+## Create Survey: <h3>
+![Create Survey](/Screenshots/createSurvey.JPG)
+  
+## Rate : <h3>
+![Rate](/Screenshots/rate.JPG)
+  
+## Add Company: <h3>
+![AddCompany](/Screenshots/addCompany.JPG)
