@@ -16,7 +16,7 @@
     <string name="usernameFromUser">Username...</string>
     <string name="exitButton">Exit</string>
     <string name="createSurvey">Create Survey</string>
-    <string name="enterSurveyName">Please enter survey title...</string>
+    <string name="enterSurveyName">Please enter survey question...</string>
     <string name="options">Please enter option...</string>
     <string name="addOption">option</string>
     <string name="deleteOption">option</string>
